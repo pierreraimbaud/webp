@@ -4,8 +4,8 @@
 
 <h2>JavaScript Alert</h2>
 
-<button onclick="myFunction()">Try it</button>
-
+<button onclick="myFunction()">save</button>
+<button onclick="ask()">load</button>
 <script>
 
   
@@ -27,6 +27,11 @@ function download(filename, text) {
 function myFunction() {
   download('test.txt', 'Hello world!');
 }
+  
+  function ask() {
+    window.open('https://github.com/pierreraimbaud/webp/pulls', '_blank');
+}
+  
 </script>
 
 </body>
