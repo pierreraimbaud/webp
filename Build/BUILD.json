@@ -1,6 +1,6 @@
 {
 "companyName": "DefaultCompany",
-"productName": "cube",
+"productName": "NavModes",
 "productVersion": "0.1",
 "dataUrl": "BUILD.data.unityweb",
 "wasmCodeUrl": "BUILD.wasm.code.unityweb",
