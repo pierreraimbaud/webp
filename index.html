@@ -73,10 +73,14 @@
       function saveResults(results){
         console.log (results);
         var res = results.substring(0, results.length-1);
+
+        res+=","+'"case":"'+currentScenarioID.substring(0, 1)+'"';
+        res+=","+'"nv":"'+currentScenarioID.substring(1, 2)+'"';
+
         res+=","+'"order":"'+(numberOfTrueExpe+1)+'"}';
         var json = JSON.parse(res);
         if (isDataOfInterest(filter, currentScenarioID)){
-          const ref = firebase.database().ref("GL_exp1"+'/'+entry+"/"+currentScenarioID+"/");
+          const ref = firebase.database().ref("GL_exp1"+'/'+entry+"_"+currentScenarioID.substring(0, 1)+"_"+currentScenarioID.substring(1, 2)+"/");
           ref.set(json)
           .then(
               () => {
@@ -261,7 +265,6 @@
 
         //window.location.href="game.html";
       }
-
     </script>
   </head>
 
@@ -274,7 +277,8 @@
     <div id="tutorial">
       <h3>Purpose of the study</h3>
       This experiment aims to evaluate some locomotion techniques for the specific task of hazard identification. </br>You would have <b>to repeat the experiment for 2 techniques, ONLY 1 time for each technique</b>. Repeat the experiment ONLY in case of a severe bug, such as an infinite move of the player.
-
+      </br>
+      <a href="/HazardsTutorial.pdf" download target="_blank">Documentation about hazards</a>
       <h3>Protocol</h3>
       You would have to follow the following steps, 1 time for each technique:
       <ol>
