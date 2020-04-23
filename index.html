@@ -48,7 +48,7 @@
       var numberOfTrueExpe=0;
       var gameReady=false;
       var s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      var entry=Date.now()+"_"+Array(5).join().split(',').map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');
+      var entry=Date.now()+"_"+Array(8).join().split(',').map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');
       var combination = "0A";
       var currentScenarioID;
       var filter= ["1D", "1I", "2D", "2I"];
@@ -76,7 +76,7 @@
         res+=","+'"order":"'+(numberOfTrueExpe+1)+'"}';
         var json = JSON.parse(res);
         if (isDataOfInterest(filter, currentScenarioID)){
-          const ref = firebase.database().ref("exp1"+'/'+entry+"/"+currentScenarioID+"/");
+          const ref = firebase.database().ref("GL_exp1"+'/'+entry+"/"+currentScenarioID+"/");
           ref.set(json)
           .then(
               () => {
@@ -234,7 +234,7 @@
         }
 
         entry = fname+lname+"_"+entry;
-        firebase.database().ref("exp1"+'/'+entry+"/QF"+"/").set({
+        firebase.database().ref("GL_exp1"+'/'+entry+"/QF"+"/").set({
           QF1: QF1,
           QF2: QF2,
           QF3: QF3,
