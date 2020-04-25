@@ -400,23 +400,42 @@
             <li><b>You must check the 4 facades, and come back to the starting point.</b></li>
             <li>When you have came back, <b style="color:#ff3300">click on the red parallelepiped to end the game. Please, don't forget it</b> otherwise your completion task time will be false.</li>
           </ul>
-
+<div class="row">
+        <div class="column">
       <h4>Orientation</h4>
-      <p>To orient your point of view (always first person), you must RIGHT click and move the mouse: <img src="{{site.url}}/media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:50px"></img></p>
-      <div class="row">
+      <p>To orient your point of view (always first person), you must RIGHT click and move the mouse: <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:50px"></img><button onclick="document.getElementById('rotGIF').src='./media/test.gif'">Play</button>
+<button onclick="document.getElementById('rotGIF').src='./media/rotStop.png'">Stop</button></p>
+      <!--<div class="row">
         <div class="column">
           <img src="./media/rotAV.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>Before rotation</figcaption>
         </div>
         <div class="column">
           <img src="./media/rotAFT.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
         </div>
+      </div>-->
+
+
+      <img src="./media/test.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
+    </div>
+    <div class="column">
+      <h4>Identify a hazard</h4>
+      <p>text <img src="./media/h_key.png" alt="hGIF" style="width:auto; height:100%; max-height:50px"></img><button onclick="document.getElementById('hGIF').src='./media/hazard.gif'">Play</button>
+<button onclick="document.getElementById('hGIF').src='./media/h1.png'">Stop</button></p>
+      <img src="./media/hazard.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
+
+    </div>
+
         <div class="column">
-          <img src="./media/test.gif" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
-        </div>
-      </div>
+      <h4>STOP</h4>
+      <p>text <img src="./media/s_key.png" alt="stop" style="width:auto; height:100%; max-height:50px"></img><button onclick="document.getElementById('stopGIF').src='./media/hazard.gif'">Play</button>
+<button onclick="document.getElementById('hGIF').src='./media/h1.png'">Stop</button></p>
+      <img src="./media/stop2.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
+
+    </div>
+  </div>
       <br/>
 
-      <h4>Identify a hazard</h4>
+      <!--<h4>Identify a hazard</h4>
       <p>To signal a hazard, press the <b style="color:#808000">H Key</b> of your keyboard, and release. The virtual hand should become <b style="color:#808000">yellow</b>.</p>
       <p>Then, if you move the mouse on a worker, it will make it becoming orange or pink. </p>
       <p>Finally, you must click ONCE on the worker if you want to signal it as in an hazardous situation. If you click again, it erase your action.</p>
@@ -433,23 +452,32 @@
           <img src="/media/h3.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>TODO</figcaption>
           </div>
         </div>
-      <br/>
+      <br/>-->
 
       <h4>Navigation technique</h4>
       <p> Two techniques are possible, but ONLY one is available at the same time. The virtual hand can be purple or green.</p>
       <b style="color:#800080">Purple</b> means that you <b style="color:#800080">can NOT click here</b>  to make a move.<br/>
       <b style="color:#008000">Green</b> means that you <b style="color:#008000">can click here</b> to make a move.
 
+<div class="row">
+        <div class="column">
+        
       <h4>Direct navigation technique</h4>
       <p> Technique 1: you must LEFT click <b>on the floor</b> and then you move to this point automatically: <img src="/media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:50px"></img></p>
-      <img src="/media/demoDirect.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
-      <img src="/media/demoDirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
+            <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
 
+     <!-- <img src="/media/demoDirect.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
+      <img src="/media/demoDirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>-->
+</div>
+<div class="column">
       <h4>Indirect navigation technique</h4>
       <p> Technique 2: you must LEFT click <b>on the little map</b> and then you move to this point automatically: <img src="/media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:50px"></img></p>
-      <img src="/media/demoIndirect.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
-      <img src="/media/demoIndirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
+                  <img src="./media/indirect.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:300px"></img><figcaption>After rotation</figcaption>
 
+     <!-- <img src="/media/demoIndirect.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>
+      <img src="/media/demoIndirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:300px"></img>-->
+</div>
+</div>
       <h4>End</h4>
       The only common place for clicking for a move between the two techniques is the <b style="color:#ff3300">red parallelepiped</b>. You always have to LEFT click on it to end the game, no matters the technique.
       <img src="/media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:50px"></img><figcaption>Left click</figcaption>
