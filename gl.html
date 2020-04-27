@@ -38,6 +38,13 @@
         text-align: center;
       }
 
+      .centerImg {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
+
       table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -393,6 +400,9 @@
                 document.getElementById("questionnaireDiv").style.display = 'none';
                 document.getElementById("questionnaireDoneDiv").style.display = 'block';
                 document.getElementById("checkListDiv").style.display = 'block';
+                var url = location.href;               //Save down the URL without hash.
+                location.href = "#"+"tuto";                 //Go to the target element.
+                history.replaceState(null,null,url);   //Don't like hashes. Changing it back.
                 },
                 reason => {
                   window.alert("Error when sending form. Please try refreshing the page.");
@@ -410,140 +420,25 @@
       <h2><u style="color:grey">An experience about the navigation techniques in a virtual world</u></h2>
     </div>
 
-    <div id="tutorial">
+    <div id="introDiv">
       <h3>Informed consent</h3>
       <p>The following disclaimer is considered as an informed consent:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By entering filling the forms and use the application with the virtual worksite, you accept to participate to this experiment and consent to transmit these data. No personal data with be collected. Results are collected only for academic purpose for writing or oral communication.</i></p></font>
 
       <h3>Purpose of the study</h3>
       This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards here.
-      <br/>
-      <br/>
-      You will have <b>to use 2 navigation techniques, 1 time for each one</b>. 
-      <br/>
-      Please do no repeat the experiment, except in case of a severe bug (crash, results not sent, impossibility to finish the experiment).
+      <br/><br/>
+      <img src="./media/expe.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application with a virtual worksite</figcaption>
+      <br/><br/>
+      You will<b> use 2 navigation techniques, each one 1 time</b>. Please do no repeat the experiment, except in case of a severe bug (crash, results not sent, impossibility to finish the experiment).
       <br/>
 
       <h3>Preliminary steps</h3>
       <ol>
         <li>Download and read this <b>informative PDF</b> about fall and struck-by hazards, available <a href="./media/HazardsTutorial.pdf" download target="_blank">here</a>.</li>
-        <li>Read <u>below</u> the <b>tutorial</b> about the application and the commands.</li>
-        <li>Fill and submit the <b>questionnaire</b>.</li>
+        <li>Fill and submit the <b>questionnaire</b> below.</li>
+        <li>Read the <b>tutorial</b> about the 3D application and its commands.</li>
       </ol>
-
-      <h3>The 3D application</h3>
-
-      <div id="textExplanations">
-        <h4>What do I have to do ?</h4>
-        <ol>
-          <li>Practice time: you must move around the building and identify a "fake hazard" by clicking on a worker:
-            <br/><br/>
-            <ul>
-              <li>First, a <b>"direct" navigation technique</b> is available: I click <b>on the ground</b> and I move there. 
-              <br/>
-              <b>When I am done, I click on a red/orange panel </b> to go to the next navigation.    </li>
-              <br/>          
-              <li>Secondly, a <b>"indirect" navigation technique</b> is available: I click <b>on the map</b> and I move.
-              <br/>When I am done, I click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
-            </ul>
-          </li>
-          <br/>
-          <li>For these <b>two real scenarios:</b>
-            <ul>
-              <li>You must navigate around the central building, and <b>check its 4 facades</b>. The other buildings around it do not have to be inspected.</li>
-              <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in an hazardous situation.</li>
-              <li>You must, when you have came back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Don't forget it !</li>
-              <li>After finishing the first real scenario, the second will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
-            </ul>
-          </li>
-        </ol>
-        <p>This picture summarises the experiment with : 1) and 2) as training phases (one for each navigation) and 3) and 4) as real scenario phases with measures.</p>
-        <img src="./media/orderScenarios.jpg" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
-      </div>
-      
-      <br/>
-
-      <div id="gifs">
-        <h4>The commands (mouse and keyboard)</h4>
-
-        <div class="row">
-
-          <div class="column">
-            <h4>Orientate</h4>
-            <p>To orient the point of view, use the mouse RIGHT click, hold it down and move the mouse
-              <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
-            </p>
-            <p>
-              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play GIF</button>
-              <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
-            </p>
-            <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Camera orientation</figcaption>
-          </div>
-
-          <div class="column">
-            <h4>Stop moving</h4>
-            <p>To stop moving, press once the S key on the keyboard.
-              <img src="./media/s_key.jpg" alt="stop" style="width:auto; height:100%; max-height:30px"></img>
-            </p>
-            <p>
-              <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play GIF</button>
-              <button onclick="document.getElementById('stopGIF').src='./media/fix/sStop.png'">Stop</button>
-            </p>
-            <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
-          </div>
-
-          <div class="column">
-            <h4>Identify a worker in an hazardous situation</h4>
-            <p>First, press once the H key. <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> The arrow will become <b style="color:#808000">yellow</b>. Do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> (the arrow appears <b style="color:#55bb55">green</b> on them) to identify the worker as an hazardous situation. To undo this, click again on him.
-            </p>
-            <p>              
-              <button onclick="document.getElementById('hGIF').src='./media/hazard.gif'">Play GIF</button>
-              <button onclick="document.getElementById('hGIF').src='./media/fix/hStop.png'">Stop</button>
-            </p>
-            <img src="./media/hazard.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in an hazardous situation</figcaption>
-          </div>
-        </div>
-
-        <br/>
-
-        <div class="row">
-          <div class="column">
-            <h4>Direct navigation technique</h4>
-            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the floor</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
-            </p>
-            <p>
-              <button onclick="document.getElementById('directGIF').src='./media/direct.gif'">Play GIF</button>
-              <button onclick="document.getElementById('directGIF').src='./media/fix/rotStop.png'">Stop</button>
-            </p>
-            <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
-          </div>
-          <div class="column">
-            <h4>Indirect navigation technique</h4>
-            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the map</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
-            </p>
-            <p>
-              <button onclick="document.getElementById('indirectGIF').src='./media/indirect.gif'">Play GIF</button>
-              <button onclick="document.getElementById('indirectGIF').src='./media/fix/indStop.png'">Stop</button>
-            </p>
-            <img src="./media/indirect.gif" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
-          </div>
-          <div class="column">
-            <h4>End</h4>
-            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>. Always click on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the mini-map, even in indirect navigation.
-            </p>
-            <p>
-              <button onclick="document.getElementById('finGIF').src='./media/fin.gif'">Play GIF</button>
-              <button onclick="document.getElementById('finGIF').src='./media/fix/indStop.png'">Stop</button>
-            </p>
-            <img src="./media/fin.gif" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
-          </div>
-        </div>
-
-        <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. And then, you can re-show it again <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
-      </div>
-
     </div>
-
-    <br/>
 
     <div id="questionnaireDiv" >
       <h3>Pre-experiment questionnaire</h3>
@@ -556,15 +451,14 @@
         <li>Situation awareness (how aware am I of where I am in the environment after moving)</li>
         <li>Usability (how easy is it to move)</li>
       </ul>
-      <p>The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identify hazards.
-      </p>
+      The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identify hazards.
       <br/>
 
       <form name="myForm" id="questionnaire">
-
         <div>
           <h4>Method 1 for classifying</h4>
-          <p>Give to each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (hazards). The <b>total sum must be 12</b>.</p>
+          <p>Give to each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (hazards). </p>
+          <p>The <b style="color:#dd6600">total sum must be 12</b>.</p>
           <p></p>
           <div>0<input type="range" name="QF1" id="QF1" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF1out.value = QF1.value">6 &emsp; Rapidity: 
             <output name="QF1out" id="QF1out"></output>
@@ -582,14 +476,14 @@
             <output name="QF4out" id="QF4out"></output>
           </div>
           <br/>
-          <div>Total: <output  name="totSum" id="totSum"></output> <output  name="totSumSentence" id="totSumSentence"></output>
+          <div style="color:#dd6600"><b>Total: <output  name="totSum" id="totSum"></output> <output  name="totSumSentence" id="totSumSentence"></output></b>
           </div>
           <br/>
           <h4>Method 2 for classifying</h4>
-          <p>This table also allows to classify the importance of the same criteria in the same context, but here the criteria are compared by pair.</p> 
-          <p>For two criteria, first choose in the list the most important. Then, put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance for you.</p>
-          Example: Rapidity VS IGA => For you, rapidity is more important, so you choose it in the list. For you, it is much more important than IGA, so you put 2.
-          <br/><br/>
+          <p>This table also allows to classify the importance of these criteria. However, here the criteria are compared by pair.</p>
+          <img src="./media/tableCroisee.png" alt="TODO" style="width:auto; height:100%; max-height:100px"></img>
+          <p>For two criteria (here Rapidity and IGA), first choose in the list (Rapidity/IGA) the one which is the most important between the two. Then, put 0, 1 or 2 in the second list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance for you.</p>.
+          <br/>
           <table>
             <tr>
               <th>x</th>
@@ -705,6 +599,123 @@
       </form>
     </div>
 
+    <div id="tutorial">
+      <a name="tuto"></a>
+      <h3>The tutorial of the 3D application</h3>
+
+      <div id="textExplanations">
+        <h4>What do I have to do ?</h4>
+        <ol>
+          <li>Practice time: you must <b>move</b> around the building, <b>around the 4 facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker:
+            <br/><br/>
+            <ul>
+              <li>1A - First, a <b>"direct" navigation technique</b> is available: I click <b>on the ground</b> and I move there. 
+              <br/>
+              <b>When I am done, I click on a red/orange panel </b> to go to the next navigation.    </li>
+              <br/>          
+              <li>1B - Secondly, a <b>"indirect" navigation technique</b> is available: I click <b>on the map</b> and I move.
+              <br/>When I am done, I click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
+            </ul>
+          </li>
+          <br/>
+          <li>For these <b>two real scenarios (2A and 2B):</b>
+            <ul>
+              <li>2A will be with direct or indirect navigation, and 2B with the other one.</li>
+              <li>You must navigate around the central building, and <b>check its 4 facades</b>. The other buildings around it do not have to be inspected.</li>
+              <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in an hazardous situation.</li>
+              <li>You must, when you have came back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Don't forget it !</li>
+              <li>After finishing the <b>first real scenario (2A)</b>, the <b>second (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
+            </ul>
+          </li>
+        </ol>
+        <p>This picture summarises the experiment with : 1A) and 1B) as training phases (one for each navigation) and 2A) and 2B) as real scenario phases with measures.</p>
+        <img src="./media/orderScenarios.jpg" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
+      </div>
+      
+      <br/>
+
+      <div id="gifs">
+        <h4>The commands (mouse and keyboard)</h4>
+
+        <div class="row">
+
+          <div class="column">
+            <h4>Orientate</h4>
+            <p>To orient the point of view, use the mouse RIGHT click, hold it down and move the mouse
+              <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
+            </p>
+            <p>
+              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play GIF</button>
+              <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
+            </p>
+            <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Camera orientation</figcaption>
+          </div>
+
+          <div class="column">
+            <h4>Stop moving</h4>
+            <p>To stop moving, press once the S key on the keyboard.
+              <img src="./media/s_key.jpg" alt="stop" style="width:auto; height:100%; max-height:30px"></img>
+            </p>
+            <p>
+              <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play GIF</button>
+              <button onclick="document.getElementById('stopGIF').src='./media/fix/sStop.png'">Stop</button>
+            </p>
+            <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
+          </div>
+
+          <div class="column">
+            <h4>Identify a worker in an hazardous situation</h4>
+            <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter in <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to identify him as in an hazardous situation. To undo this, click again on him. When you are done, press again the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to the <b>"navigation mode"</b>.
+            </p>
+            <p>              
+              <button onclick="document.getElementById('hGIF').src='./media/hazard.gif'">Play GIF</button>
+              <button onclick="document.getElementById('hGIF').src='./media/fix/hStop.png'">Stop</button>
+            </p>
+            <img src="./media/hazard.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in an hazardous situation</figcaption>
+          </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+          <div class="column">
+            <h4>Direct navigation technique</h4>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the floor</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+            </p>
+            <p>
+              <button onclick="document.getElementById('directGIF').src='./media/direct.gif'">Play GIF</button>
+              <button onclick="document.getElementById('directGIF').src='./media/fix/rotStop.png'">Stop</button>
+            </p>
+            <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
+          </div>
+          <div class="column">
+            <h4>Indirect navigation technique</h4>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the map</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+            </p>
+            <p>
+              <button onclick="document.getElementById('indirectGIF').src='./media/indirect.gif'">Play GIF</button>
+              <button onclick="document.getElementById('indirectGIF').src='./media/fix/indStop.png'">Stop</button>
+            </p>
+            <img src="./media/indirect.gif" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
+          </div>
+          <div class="column">
+            <h4>End</h4>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>. Always click on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the map, even in indirect navigation.
+            </p>
+            <p>
+              <button onclick="document.getElementById('finGIF').src='./media/fin.gif'">Play GIF</button>
+              <button onclick="document.getElementById('finGIF').src='./media/fix/indStop.png'">Stop</button>
+            </p>
+            <img src="./media/fin.gif" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
+          </div>
+        </div>
+
+        <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. And then, you can re-show it again <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
+      </div>
+
+    </div>
+
+    
     <div id="questionnaireDoneDiv"  style="display:none">
       <h3>Pre-experiment questionnaire</h3>
       <p>Form sent ✔</p>
@@ -721,11 +732,11 @@
         </label>
         <label class="checkbox">
           <input form="checkList" type="checkbox" name="step2"/>
-          <span>2. Read the app tutorial</span>
+          <span>2. Fill and submit the questionaire</span>
         </label>
         <label class="checkbox">
           <input form="checkList" type="checkbox" name="step3"/>
-          <span>3. Fill and submit the questionaire</span>
+          <span>3. Read the tutorial of the 3D application</span>
         </label>
         <input type="submit" value="I am done!">
       </form>
