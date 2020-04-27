@@ -12,11 +12,13 @@
       * {
         box-sizing: border-box;
       }
-
+      h3 {
+        color: #4C9F50;
+      }
       .column {
         float: left;
         width: 33.33%;
-        padding: 5px;
+        padding-right: 10px;
       }
       .column-small {
         float: left;
@@ -24,7 +26,6 @@
         padding: 5px;
       }
 
-      /* Clearfix (clear floats) */
       .row::after {
         content: "";
         clear: both;
@@ -35,6 +36,7 @@
         margin: auto;
         text-align: center;
       }
+
       table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -113,7 +115,6 @@
         var filter= ["1D", "1I", "2D", "2I"];
 
         //Instantiate unity webgl
-        //var unityInstance = UnityLoader.instantiate("unityContainer", "Build"+combination+"/WebGLStableV2.json", {onProgress: UnityProgress});      
         var unityInstance = UnityLoader.instantiate("unityContainer", "Build"+"/Build.json", {onProgress: UnityProgress});      
 
         // Database configuration
@@ -132,15 +133,21 @@
         firebase.initializeApp(firebaseConfig);
 
         function showExpe(){
-          document.getElementById("questionnaireDiv").style.display = 'none';
-          document.getElementById("checkListDiv").style.display = 'none';
-          activateWebGLContainer();
-          scrollingElement = (document.scrollingElement || document.body)
-          scrollingElement.scrollTop = scrollingElement.scrollHeight;
+          if (gameReady){
+            stopAllGIF();
+            document.getElementById("checkListDiv").style.display = 'none';
+            activateWebGLContainer();
+            scrollingElement = (document.scrollingElement || document.body)
+            scrollingElement.scrollTop = scrollingElement.scrollHeight;
+          }
+          else{
+            alert("Please wait few minutes, the game is loading, and click again on 'I am done'")
+          }
         }
 
         function showFinal(){
           document.getElementById("tutorial").style.display = 'none';
+          document.getElementById("questionnaireDoneDiv").style.display = 'none';
           document.getElementById("finalDiv").style.display = 'block';
           scrollingElement = (document.scrollingElement || document.body)
           scrollingElement.scrollTop = scrollingElement.scrollHeight;
@@ -163,13 +170,11 @@
               () => {
                 window.alert("Results sent!");
                 ref.onDisconnect().cancel(); 
-                  // Success callback is always executed (even in offline mode).
                 },
                 reason => {
-                  window.alert("Error when sending results because:"+reason);
-                  // Error callback is never executed for some reason :-(
+                  window.alert("Error when sending results. Please do the whole experiment again, with the form.");
                 }
-                );
+            );
           }
         }
 
@@ -178,9 +183,7 @@
         }
 
         function informWhenAppHasStarted(){
-          //console.log("has started OK");
           gameReady=true;
-          //console.log("disable keyboard");
           FocusCanvas("0");
         }
 
@@ -199,6 +202,15 @@
 
         function desactivateKeyboard() {
           FocusCanvas("0");
+        }
+
+        function stopAllGIF(){
+          document.getElementById('rotGIF').src='./media/fix/rotStop.png';
+          document.getElementById('stopGIF').src='./media/fix/sStop.png';
+          document.getElementById('hGIF').src='./media/fix/hStop.png';
+          document.getElementById('directGIF').src='./media/fix/rotStop.png';
+          document.getElementById('indirectGIF').src='./media/fix/indStop.png';
+          document.getElementById('finGIF').src='./media/fix/indStop.png';
         }
 
         function activateWebGLContainer() {
@@ -222,10 +234,8 @@
         }
 
         function sendJSMessageLoadNewScenario() {
-          //console.log("current is "+currentScenarioID);
           var next = decideNextScenario(currentScenarioID);
-          //console.log("next will be "+next);
-          console.log("numberOfTrueExpe"+numberOfTrueExpe);
+
           if (numberOfTrueExpe<2){
             loadScenario(next);
           }
@@ -242,7 +252,6 @@
 
         function decideNextScenario (current){
           var next="";
-          console.log('current'+current);
           switch (current) {
             case "0D": next = "0I"
             break;
@@ -257,7 +266,6 @@
             case "2I": next = "1D"; numberOfTrueExpe++;
             break;
             default: next = "0D";
-            console.log('errrrrrrrrrrrror');
           }
 
           return next; 
@@ -281,6 +289,26 @@
           return false;
         }
 
+        function calculateSum(){
+          var QF1 = document.forms["myForm"]["QF1out"].value;
+          var QF2 = document.forms["myForm"]["QF2out"].value;
+          var QF3 = document.forms["myForm"]["QF3out"].value;
+          var QF4 = document.forms["myForm"]["QF4out"].value;
+          var tot = +QF1 + +QF2 + +QF3 + +QF4;
+          document.getElementById('totSum').value = tot;
+          var totSumSentence = document.getElementById('totSumSentence');
+          if (tot<12){
+            totSumSentence.value= " - Too low, must be 12.";
+          }
+          else if (tot>12){
+            totSumSentence.value= " - Too high, must be 12.";
+          }
+          else{
+            totSumSentence.value= "- Sum is 12, perfect.";
+          }
+          
+        }
+
         function validateForm() {
 
           var QF1 = document.forms["myForm"]["QF1out"].value;
@@ -289,12 +317,12 @@
           var QF4 = document.forms["myForm"]["QF4out"].value;
           var tot = +QF1 + +QF2 + +QF3 + +QF4;
 
-          if (tot != 10) {
-            alert("Sum must be 10");
+          if (tot != 12) {
+            alert("The total of the weight in Method 1 must be 12");
             return false;
           }
-          //var fname = document.forms["myForm"]["fname"].value;
-          //var lname = document.forms["myForm"]["lname"].value;
+
+
           var c1_2 = document.forms["myForm"]["c1_2"].value;
           var c1_2w = document.forms["myForm"]["c1_2w"].value;
           var c1_3 = document.forms["myForm"]["c1_3"].value;
@@ -308,22 +336,14 @@
           var c3_4 = document.forms["myForm"]["c3_4"].value;
           var c3_4w = document.forms["myForm"]["c3_4w"].value;
 
-          /*if (fname == "") {
-            alert("You must enter your first name and name. If you really don't want too, enter a sequence of random 8 letters");
-            return false;
-          }
-          if (lname == "") {
-            alert("You must enter your first name and name. If you really don't want too, enter a sequence of random 8 letters");
-            return false;
-          }*/
 
           if (c1_2w == 0 && c1_3w ==0 && c1_4w ==0 && c2_3w == 0 && c2_4w ==0 && c3_4w ==0) {
             alert("You must fill this comparison table");
             return false;
           }
 
-          //entry = fname+lname+"_"+entry;
-          firebase.database().ref("GL_exp1_QF" + "/" +entry +"/").set({
+          const reff = firebase.database().ref("GL_exp1_QF" + "/" +entry +"/");
+          reff.set({
             QF1: QF1,
             QF2: QF2,
             QF3: QF3,
@@ -340,8 +360,18 @@
             c2_4w:c2_4w,
             c3_4:c3_4,
             c3_4w:c3_4w,
-          });
-          //FocusCanvas("1");
+          }).then(
+              () => {
+                window.alert("Form sent!");
+                reff.onDisconnect().cancel(); 
+                document.getElementById("questionnaireDiv").style.display = 'none';
+                document.getElementById("questionnaireDoneDiv").style.display = 'block';
+                document.getElementById("checkListDiv").style.display = 'block';
+                },
+                reason => {
+                  window.alert("Error when sending form. Please try refreshing the page.");
+                }
+            );
         }
     </script>
   </head>
@@ -359,76 +389,91 @@
       <p>The following disclaimer is considered as an informed consent:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By entering filling the forms and use the application with the virtual worksite, you accept to participate to this experiment and consent to transmit these data. No personal data with be collected. Results are collected only for academic purpose for writing or oral communication.</i></p></font>
 
       <h3>Purpose of the study</h3>
-      This experiment aims to evaluate some navigation techniques for the specific task of hazard identification. <br/>You will have <b>to use 2 different techniques, ONLY 1 time for each technique</b>. Repeat the experiment ONLY in case of a severe bug, such as an infinite move of the player.
+      This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards here.
+      <br/>
+      <br/>
+      You will have <b>to use 2 navigation techniques, 1 time for each one</b>. 
+      <br/>
+      Please do no repeat the experiment, except in case of a severe bug (crash, results not sent, impossibility to finish the experiment).
       <br/>
 
       <h3>Preliminary steps</h3>
       <ol>
-        <li>Download and read this informative PDF about fall and struck-by hazards, available <a href="/HazardsTutorial.pdf" download target="_blank">here</a>.</li>
-        <li>Read the tutorial about the application and the commands.</li>
-        <li>Fill and submit the questionnaire.</li>
+        <li>Download and read this <b>informative PDF</b> about fall and struck-by hazards, available <a href="/HazardsTutorial.pdf" download target="_blank">here</a>.</li>
+        <li>Read <u>below</u> the <b>tutorial</b> about the application and the commands.</li>
+        <li>Fill and submit the <b>questionnaire</b>.</li>
       </ol>
 
-      <h3>The experience in the virtual worksite</h3>
-
-      <h4>What I have to do ?</h4>
+      <h3>The 3D application</h3>
 
       <div id="textExplanations">
-        <ul>
-          <li>First you will be able to practise in the application, by moving around the building and identifying a "fake hazard":
+        <h4>What do I have to do ?</h4>
+        <ol>
+          <li>Practice time: you must move around the building and identify a "fake hazard" by clicking on a worker:
+            <br/><br/>
             <ul>
-              <li>First, using a <b>"direct" navigation technique</b> -> I click <b>on the ground</b> and then I move there.
-              
-              <li>Secondly, using a <b>"indirect" navigation technique</b> -> I click <b>on the map</b> and then I move.
+              <li>First, a <b>"direct" navigation technique</b> is available: I click <b>on the ground</b> and I move there. 
+              <br/>
+              <b>When I am done, I click on a red/orange panel </b> to go to the next navigation.    </li>
+              <br/>          
+              <li>Secondly, a <b>"indirect" navigation technique</b> is available: I click <b>on the map</b> and I move.
+              <br/>When I am done, I click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
             </ul>
           </li>
           <br/>
-          <li>Then, you will experiment these two techniques in <b>two real scenarios</b>
+          <li>For these <b>two real scenarios:</b>
             <ul>
-              <li>You must navigate around the building: check the 4 facades, and come back to the starting point. </li>
-                <li>During this inspection, you must identify the workers that are in an hazardous situation. </li>
-            </ul>
-            <ul>
-              <li>The central building is the one which is currently in construction during the worksite. The buildings around it are already finished.</li>
-              <li>The experiment starts in a corner of the central building. Move around the central building, along its 4 facades.</li>
-              <li><b>You must check the 4 facades, and come back to the starting point.</b></li>
-              <li>When you have came back, <b style="color:#ff3300">click on the red parallelepiped to end the game. Please, don't forget it</b> otherwise your completion task time will be false.</li>
+              <li>You must navigate around the central building, and <b>check its 4 facades</b>. The other buildings around it do not have to be inspected.</li>
+              <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in an hazardous situation.</li>
+              <li>You must, when you have came back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Don't forget it !</li>
+              <li>After finishing the first real scenario, the second will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
             </ul>
           </li>
-        </ul>
+        </ol>
+        <p>This picture summarises the experiment with : 1) and 2) as training phases (one for each navigation) and 3) and 4) as real scenario phases with measures.</p>
+        <img src="/media/order.png" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
       </div>
+      
+      <br/>
 
       <div id="gifs">
+        <h4>The commands (mouse and keyboard)</h4>
 
         <div class="row">
+
           <div class="column">
             <h4>Orientate</h4>
-            <p>To orient your point of view, you must use with the mouse RIGHT click, hold it down and move it:
+            <p>To orient the point of view, use the mouse RIGHT click, hold it down and move the mouse
               <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
-              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play</button>
+            </p>
+            <p>
+              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play GIF</button>
               <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
             </p>
-            <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>After rotation</figcaption>
+            <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Camera orientation</figcaption>
           </div>
 
           <div class="column">
-            <h4>Stop</h4>
-            <p>To orient your point of view, you must use with the mouse RIGHT click, hold it down and move it:
+            <h4>Stop moving</h4>
+            <p>To stop moving, press once the S key on the keyboard.
               <img src="./media/s_key.png" alt="stop" style="width:auto; height:100%; max-height:30px"></img>
-              <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play</button>
+            </p>
+            <p>
+              <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play GIF</button>
               <button onclick="document.getElementById('stopGIF').src='./media/fix/sStop.png'">Stop</button>
             </p>
-            <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>After rotation</figcaption>
+            <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
           </div>
 
           <div class="column">
             <h4>Identify a worker in an hazardous situation</h4>
-            <p>To orient your point of view, you must use with the mouse RIGHT click, hold it down and move it:
-              <img src="./media/h_key.png" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img>
-              <button onclick="document.getElementById('hGIF').src='./media/hazard.gif'">Play</button>
+            <p>First, press once the H key. <img src="./media/h_key.png" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> The arrow will become <b style="color:#808000">yellow</b>. Do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> (the arrow appears <b style="color:#55bb55">green</b> on them) to identify the worker as an hazardous situation. To undo this, click again on him.
+            </p>
+            <p>              
+              <button onclick="document.getElementById('hGIF').src='./media/hazard.gif'">Play GIF</button>
               <button onclick="document.getElementById('hGIF').src='./media/fix/hStop.png'">Stop</button>
             </p>
-            <img src="./media/hazard.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>After rotation</figcaption>
+            <img src="./media/hazard.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in an hazardous situation</figcaption>
           </div>
         </div>
 
@@ -436,246 +481,235 @@
 
         <div class="row">
           <div class="column">
-            <!--<h4>Navigation technique</h4>
-            <p> Two techniques are possible, but ONLY one is available at the same time. The virtual hand can be purple or green.</p>
-            <b style="color:#800080">Purple</b> means that you <b style="color:#800080">can NOT click here</b>  to make a move.<br/>
-            <b style="color:#008000">Green</b> means that you <b style="color:#008000">can click here</b> to make a move.-->
             <h4>Direct navigation technique</h4>
-            <p> Technique 1: you must LEFT click <b>on the floor</b> and then you move to this point automatically:
-              <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
-              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play</button>
-              <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the floor</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
             </p>
-            <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>After rotation</figcaption>
+            <p>
+              <button onclick="document.getElementById('directGIF').src='./media/direct.gif'">Play GIF</button>
+              <button onclick="document.getElementById('directGIF').src='./media/fix/rotStop.png'">Stop</button>
+            </p>
+            <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
           </div>
           <div class="column">
             <h4>Indirect navigation technique</h4>
-            <p> Technique 2: you must LEFT click <b>on the little map</b> and then you move to this point automatically:
-              <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
-              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play</button>
-              <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the map</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
             </p>
-            <img src="./media/indirect.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>After rotation</figcaption>
+            <p>
+              <button onclick="document.getElementById('indirectGIF').src='./media/indirect.gif'">Play GIF</button>
+              <button onclick="document.getElementById('indirectGIF').src='./media/fix/indStop.png'">Stop</button>
+            </p>
+            <img src="./media/indirect.gif" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
           </div>
           <div class="column">
             <h4>End</h4>
-            <p> the <b style="color:#ff3300">red parallelepiped</b>. You always have to LEFT click on it to end the game, no matters the technique.
-              <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
-              <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play</button>
-              <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
+            <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>. Always click on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the mini-map, even in indirect navigation.
             </p>
-            <img src="/media/fin.gif" alt="TODO" style="width:auto; height:100%; max-height:200px"></img>
+            <p>
+              <button onclick="document.getElementById('finGIF').src='./media/fin.gif'">Play GIF</button>
+              <button onclick="document.getElementById('finGIF').src='./media/fix/indStop.png'">Stop</button>
+            </p>
+            <img src="./media/fin.gif" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
           </div>
-        </div> 
+        </div>
+
+        <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. And then, you can re-show it again <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
       </div>
 
-      <div id="order">
-        <h4>order</h4>
-        <p>eeeeeeeeeeeeeeeeeeee</p>
-        <img src="/media/order.png" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
-      </div>
+    </div>
 
-      <!--<div>
-        <h4>Identify a hazard</h4>
-        <p>To signal a hazard, press the <b style="color:#808000">H Key</b> of your keyboard, and release. The virtual hand should become <b style="color:#808000">yellow</b>.</p>
-        <p>Then, if you move the mouse on a worker, it will make it becoming orange or pink. </p>
-        <p>Finally, you must click ONCE on the worker if you want to signal it as in an hazardous situation. If you click again, it erase your action.</p>
-        <p>You can click on several workers before quitting the Hazard Mode by pressing the H key again<img src="/media/h_key.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img></p>
-        <br/>
-          <div class="row">
-            <div class="column">
-              <img src="/media/h1.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>TODO</figcaption>
-              </div>
-            <div class="column">
-              <img src="/media/h2.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>TODO</figcaption>
-              </div>
-            <div class="column">
-              <img src="/media/h3.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img><figcaption>TODO</figcaption>
-              </div>
-            </div>
-            <br/>
-            <img src="/media/demoDirect.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img>
-          <img src="/media/demoDirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img>
-          <img src="/media/demoIndirect.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img>
-          <img src="/media/demoIndirectNO.png" alt="TODO" style="width:auto; height:100%; max-height:200px"></img>
-      </div> -->
+    <br/>
 
     <div id="questionnaireDiv" >
       <h3>Pre-experiment questionnaire</h3>
-      <form name="myForm" id="questionnaire">
-            <!--<label for="fname">First name:</label>
-            <input type="text" id="fname" name="fname"><br><br>
-            <label for="lname">Last name:</label>
-            <input type="text" id="lname" name="lname"><br><br>-->
-            <div>
-              <p>Please give to each criterion a weight from 0 to 10 according to the importance of this criteria <b>for navigating</b> WHEN <b>searching hazards in a worksite</b></p>
-              <p>The total sum must be 10.</p>
-              <div>0<input type="range" name="QF1" id="QF1" value="5" min="0" max="10" oninput="QF1out.value = QF1.value">10 &emsp; Rapidity: <output name="QF1out" id="QF1out">5</output></div> 
-              <br/><br/>
-              <div>0<input type="range" name="QF2" id="QF2" value="5" min="0" max="10" oninput="QF2out.value = QF2.value">10 &emsp; Information Gathering ability (IGA): <output name="QF2out" id="QF2out">5</output></div>
-              <br/><br/>
-              <div>0<input type="range" name="QF3" id="QF3" value="5" min="0" max="10" oninput="QF3out.value = QF3.value">10 &emsp; Situation awareness (SA): <output name="QF3out" id="QF3out">5</output></div>
-              <br/><br/>
-              <div>0<input type="range" name="QF4" id="QF4" value="5" min="0" max="10" oninput="QF4out.value = QF4.value">10 &emsp; Usability: <output name="QF4out" id="QF4out">5</output></div>
-              <br/><br/>
-              <p>The objective of this table is also to attribute weights to criteria according to their importance <b>for navigating</b> for THIS task of hazard identification</p>
-              <p>This time the criteria must be compared by pair. First, choose which criterion is more important in a pair, select it. Then, put 1 if this criteria is "moderately" more important, or 2 if it is much more important. If you put 0, it means that, for you, the two criteria have the same importance.
-                <br>Example: : rapidity VS usability => I think that rapidity is more important, I select it. I think it is much more important than usability, so I choose 2.
-                <table>
-                  <tr>
-                    <th>x</th>
-                    <th>Rapidity</th>
-                    <th>Information Gathering ability (IGA)</th>
-                    <th>Situation awareness (SA)</th>
-                    <th>Usability</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      Rapidity 
-                    </td>
-                    <td>x</td>
-                    <td>
-                      <select id="c1_2">
-                        <option value="QF1">Rapidity</option>
-                        <option value="QF2">IGA</option>
-                      </select>
-                      <select id="c1_2w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select id="c1_3">
-                        <option value="QF1">Rapidity</option>
-                        <option value="QF3">SA</option>
-                      </select>
-                      <select id="c1_3w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select id="c1_4">
-                        <option value="QF1">Rapidity</option>
-                        <option value="QF4">Usability</option>
-                      </select>
-                      <select id="c1_4w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Information Gathering ability (IGA) 
-                    </td>
-                    <td>x</td>
-                    <td>x</td>
-                    <td>
-                      <select id="c2_3">
-                        <option value="QF2">IGA</option>
-                        <option value="QF3">SA</option>
-                      </select>
-                      <select id="c2_3w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select id="c2_4">
-                        <option value="QF2">IGA</option>
-                        <option value="QF4">Usability</option>
-                      </select>
-                      <select id="c2_4w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Situation awareness (SA) 
-                    </td>
-                    <td>x</td>
-                    <td>x</td>
-                    <td>x</td>
-                    <td>
-                      <select id="c3_4">
-                        <option value="QF3">SA</option>
-                        <option value="QF4">Usability</option>
-                      </select>
-                      <select id="c3_4w">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      Usability 
-                    </td>
-                    <td>x</td>
-                    <td>x</td>
-                    <td>x
-                    </td>
-                    <td>x
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            <!--<br/><br/>
-            Combination (for this pre-expe) 0A and 0B to try the 2 interactions<select name="combination" id="combination">
-              <option value="0A">0A</option>
-              <option value="0B">0B</option>
-                  <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-                <br/><br/>-->
-                <input type="button" onclick="validateForm()" value="Send form and load app!">
-              </form>
-            </div>
+      <p>Navigation can be done using very different techniques, but some are more useful than other depending on what is your current task or intention. </p>
+      <b>Here your task is to identify hazards on a worksite.</b>
+      We are considering the four following criteria as criteria that influence the quality of the navigation:
+      <ul>
+        <li>Rapidity (how fast when moving)</li>
+        <li>Information Gathering ability (how easy is it to get relevant information from the environment when moving)</li>
+        <li>Situation awareness (how aware am I of where I am in the environment after moving)</li>
+        <li>Usability (how easy is it to move)</li>
+      </ul>
+      <p>The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identify hazards.
+      </p>
+      <br/>
 
-            <div id="checkListDiv">
-              <p>Are you really ready? Do this check-list!</p>
-              <form name="checkList" id="checkList" onsubmit="return checkReady()">
-                <label class="checkbox">
-                  <input form="checkList" type="checkbox" name="step1"/>
-                  <span>1. Read the PDF doc</span>
-                </label>
-                <label class="checkbox">
-                  <input form="checkList" type="checkbox" name="step2"/>
-                  <span>2. Read the app tutorial</span>
-                </label>
-                <label class="checkbox">
-                  <input form="checkList" type="checkbox" name="step3"/>
-                  <span>3. Fill and submit the questionaire</span>
-                </label>
-                <form action="//www.html.am/html-codes/forms/html-form-tag-action.cfm" target="result3" method="get" id="myForm">
-                  <input type="submit" value="I am done!">
-                </form>
-              </div>
+      <form name="myForm" id="questionnaire">
+
+        <div>
+          <h4>Method 1 for classifying</h4>
+          <p>Give to each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (hazards). The <b>total sum must be 12</b>.</p>
+          <p></p>
+          <div>0<input type="range" name="QF1" id="QF1" value="5" min="0" max="6" onChange="calculateSum()" oninput="QF1out.value = QF1.value">6 &emsp; Rapidity: 
+            <output name="QF1out" id="QF1out"></output>
+          </div> 
+          <br/><br/>
+          <div>0<input type="range" name="QF2" id="QF2" value="5" min="0" max="6" onChange="calculateSum()" oninput="QF2out.value = QF2.value">6 &emsp; Information Gathering ability (IGA): 
+            <output name="QF2out" id="QF2out"></output>
+          </div>
+          <br/><br/>
+          <div>0<input type="range" name="QF3" id="QF3" value="5" min="0" max="6" onChange="calculateSum()" oninput="QF3out.value = QF3.value">6 &emsp; Situation awareness (SA): 
+            <output name="QF3out" id="QF3out"></output>
+          </div>
+          <br/><br/>
+          <div>0<input type="range" name="QF4" id="QF4" value="5" min="0" max="6" onChange="calculateSum()" oninput="QF4out.value = QF4.value">6 &emsp; Usability: 
+            <output name="QF4out" id="QF4out"></output>
+          </div>
+          <br/>
+          <div>Total: <output  name="totSum" id="totSum"></output> <output  name="totSumSentence" id="totSumSentence"></output>
+          </div>
+          <br/>
+          <h4>Method 2 for classifying</h4>
+          <p>This table also allows to classify the importance of the same criteria in the same context, but here the criteria are compared by pair.</p> 
+          <p>For two criteria, first choose in the list the most important. Then, put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance for you.</p>
+          Example: Rapidity VS IGA => For you, rapidity is more important, so you choose it in the list. For you, it is much more important than usability, so you put 2.
+          <br/><br/>
+          <table>
+            <tr>
+              <th>x</th>
+              <th>Rapidity</th>
+              <th>Information Gathering ability (IGA)</th>
+              <th>Situation awareness (SA)</th>
+              <th>Usability</th>
+            </tr>
+            <tr>
+              <td>
+                Rapidity 
+              </td>
+              <td>x</td>
+              <td>
+                <select id="c1_2">
+                  <option value="QF1">Rapidity</option>
+                  <option value="QF2">IGA</option>
+                </select>
+                <select id="c1_2w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+              <td>
+                <select id="c1_3">
+                  <option value="QF1">Rapidity</option>
+                  <option value="QF3">SA</option>
+                </select>
+                <select id="c1_3w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+              <td>
+                <select id="c1_4">
+                  <option value="QF1">Rapidity</option>
+                  <option value="QF4">Usability</option>
+                </select>
+                <select id="c1_4w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Information Gathering ability (IGA) 
+              </td>
+              <td>x</td>
+              <td>x</td>
+              <td>
+                <select id="c2_3">
+                  <option value="QF2">IGA</option>
+                  <option value="QF3">SA</option>
+                </select>
+                <select id="c2_3w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+              <td>
+                <select id="c2_4">
+                  <option value="QF2">IGA</option>
+                  <option value="QF4">Usability</option>
+                </select>
+                <select id="c2_4w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Situation awareness (SA) 
+              </td>
+              <td>x</td>
+              <td>x</td>
+              <td>x</td>
+              <td>
+                <select id="c3_4">
+                  <option value="QF3">SA</option>
+                  <option value="QF4">Usability</option>
+                </select>
+                <select id="c3_4w">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Usability 
+              </td>
+              <td>x</td>
+              <td>x</td>
+              <td>x
+              </td>
+              <td>x
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <br/>
+        <input type="button" onclick="validateForm()" value="Send form">
+
+      </form>
     </div>
 
-    <!--<div id="debugButtonsDiv" style="display:none">
-      <button  onclick="activateWebGLContainer()">GO 3D</button>
-      <button  onclick="desactivateKeyboard()">BACK keyb</button>
-      <input id="WebGLKeyboardInput" type="text" name="WebGLKeyboardInput" value="" />
-      <button  onclick="testLoadScenario()">testLoadScenario</button>
-    </div>-->
+    <div id="questionnaireDoneDiv"  style="display:none">
+      <h3>Pre-experiment questionnaire</h3>
+      <p>Form sent ✔</p>
+    </div>
+
+    <div id="checkListDiv"  style="display:none">
+      <h3>Do the experiment</h3>
+      <p>Are you ready? Please do this check-list.</p>
+      <p>If this is all OK, validate to start the experiment !</p>
+      <form name="checkList" id="checkList" onsubmit="return checkReady()">
+        <label class="checkbox">
+          <input form="checkList" type="checkbox" name="step1"/>
+          <span>1. Read the PDF doc</span>
+        </label>
+        <label class="checkbox">
+          <input form="checkList" type="checkbox" name="step2"/>
+          <span>2. Read the app tutorial</span>
+        </label>
+        <label class="checkbox">
+          <input form="checkList" type="checkbox" name="step3"/>
+          <span>3. Fill and submit the questionaire</span>
+        </label>
+        <input type="submit" value="I am done!">
+      </form>
+      </div>
+    </div>
 
     <div id="finalDiv" style="display:none">
-      <p>Thank you a lot for participating to this experiment</p>
-      <br/>
-      <p>Please do not repeat the experiment several times because the results would be biased</p>
-      <b>HOWEVER</b><ul><li>Feel free to share the page with friends !</li><li>If you live with other people who want to participate, please refresh the page, or click <button onclick="window.location.reload(false)">here</button></li></ul>
+      <p>Thank you a lot for participating to this experiment.</p>
+      <p>Please do not repeat the experiment several times because your results would be biaised.</p>
+      <b>HOWEVER</b><ul><li>Feel free to share the page with friends !</li><li>If you live with other people who also want to participate, please click <button onclick="window.location.reload(false)">here</button></li></ul>
     </div>
 
     <div class="webgl-content">
