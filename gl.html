@@ -4,7 +4,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
     <title>Virtual Hazard Identification</title>
 
     <style media="screen">
@@ -108,6 +109,8 @@
         //Global vars
         var numberOfTrueExpe=0;
         var gameReady=false;
+        var keybForGlAndFirstLoadDone=false;
+        var glContainerOpen=false;
         var s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var entry=Date.now()+"_"+Array(8).join().split(',').map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');
         var combination = "0A";
@@ -133,16 +136,17 @@
         firebase.initializeApp(firebaseConfig);
 
         function showExpe(){
-          if (gameReady){
+            glContainerOpen=true;
+          //if (gameReady){
             stopAllGIF();
             document.getElementById("checkListDiv").style.display = 'none';
             activateWebGLContainer();
             scrollingElement = (document.scrollingElement || document.body)
             scrollingElement.scrollTop = scrollingElement.scrollHeight;
-          }
-          else{
-            alert("Please wait few minutes, the game is loading, and click again on 'I am done'")
-          }
+        //  }
+         // else{
+           // alert("Please wait few minutes, the game is loading, and click again on 'I am done'")
+          //}
         }
 
         function showFinal(){
@@ -184,7 +188,21 @@
 
         function informWhenAppHasStarted(){
           gameReady=true;
-          FocusCanvas("0");
+          //FocusCanvas("0");
+          if (glContainerOpen && !keybForGlAndFirstLoadDone){
+            sleep(3000).then(() => {
+              keybForGlAndFirstLoadDone=true;
+              firstLoadIfActive();
+            });
+          }
+          else{
+              FocusCanvas("0");
+          }
+
+        }
+
+        function sleep (time) {
+          return new Promise((resolve) => setTimeout(resolve, time));
         }
 
         function getCurrentScenarioID(currentID){
@@ -214,11 +232,19 @@
         }
 
         function activateWebGLContainer() {
-          //document.getElementById("questionnaire").style.display = 'none';
           document.getElementById("unityContainer").style.width = "98vw"; 
           document.getElementById("unityContainer").style.height = "96vh";
-          FocusCanvas("1");
-          loadScenario("0D");
+          if (gameReady){
+            //sleep(1000).then(() => {
+              firstLoadIfActive();
+              keybForGlAndFirstLoadDone=true;
+            //});
+          }
+        }
+
+        function firstLoadIfActive(){
+            FocusCanvas("1");
+            //loadScenario("0D");
         }
 
         function desactivateWebGLContainer() {
@@ -377,7 +403,7 @@
   </head>
 
   <body>
-
+    <input></input>
     <div id="titles">
       <h1 class="center">Hazard identification in a virtual worksite</h1>
       <br/><br/>
