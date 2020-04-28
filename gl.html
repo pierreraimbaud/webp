@@ -168,6 +168,7 @@
         }
 
         function showFinal(){
+          document.getElementById("introDiv").style.display = 'none';
           document.getElementById("tutorial").style.display = 'none';
           document.getElementById("questionnaireDoneDiv").style.display = 'none';
           document.getElementById("finalDiv").style.display = 'block';
@@ -355,6 +356,10 @@
 
         function validateForm() {
 
+          var YN_AEC = document.forms["myForm"]["YN_AEC"].value;
+          var YN_JV = document.forms["myForm"]["YN_JV"].value;
+          var YN_H = document.forms["myForm"]["YN_H"].value;
+
           var QF1 = document.forms["myForm"]["QF1out"].value;
           var QF2 = document.forms["myForm"]["QF2out"].value;
           var QF3 = document.forms["myForm"]["QF3out"].value;
@@ -388,6 +393,9 @@
 
           const reff = firebase.database().ref("GL_exp1_QF" + "/" +entry +"/");
           reff.set({
+            YN_AEC: YN_AEC,
+            YN_JV: YN_JV,
+            YN_H: YN_H,
             QF1: QF1,
             QF2: QF2,
             QF3: QF3,
@@ -407,6 +415,7 @@
           }).then(
               () => {
                 window.alert("Form sent!");
+                document.getElementById("questionnaire").reset();
                 reff.onDisconnect().cancel();
                 document.getElementById("questionnaireDiv").style.display = 'none';
                 document.getElementById("questionnaireDoneDiv").style.display = 'block';
@@ -438,7 +447,7 @@
       <p>By reading the following disclaimer, submitting the form below and going on with the experiment, we consider that you give your informed consent about the following:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By filling in the forms and using the application with the virtual worksite, you accept to participate in this experiment and consent to transmit the afferent data. No personal data will be collected. Results are collected only for academic purposes for writing or oral communication.</i></p></font>
 
       <h3>Purpose of the study</h3>
-      This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards here.
+      This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards.
       <br/><br/>
       <img src="./media/expe.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application with a virtual worksite</figcaption>
       <br/><br/>
@@ -455,21 +464,43 @@
 
     <div id="questionnaireDiv" >
       <h3>Pre-experiment questionnaire</h3>
-      <p>Navigation can be done using very different techniques, but some are more useful than others depending on what your current task or intention are. </p>
-      <b>Here, your task is to identify hazards on a worksite.</b>
-      We are considering the four following criteria as influencing the quality of the navigation:
-      <ul>
-        <li>Rapidity (how fast can you move around in the simulated environment)</li>
-        <li>Information Gathering ability (how easy it is to get relevant information from the environment when moving)</li>
-        <li>Situation awareness (how aware I am of where I am in the environment after moving)</li>
-        <li>Usability (how easy it is to move around)</li>
-      </ul>
-      The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identifying hazards.
-      <br/>
-
       <form name="myForm" id="questionnaire">
+        <h4>Personal background</h4>
+        <ul>
+          <li>Is your field of study or work the Architecture, Engineering and Construction field?
+            <select id="YN_AEC">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </li>
+          <li>Is your study or work related to hazard identification or mitigation?
+            <select id="YN_H">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </li>
+          <li>Do you often play to videogames or use software that requires using the mouse for moving in 3D?
+            <select id="YN_JV">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </li>
+        </ul>
+        <p>Then, about navigation, this can be done using very different techniques, but some are more useful than others depending on what your current task or intention are. </p>
+        <u>Here, your task is to identify hazards on a worksite.</u>
+        We are considering the four following criteria as influencing the quality of the navigation:
+        <ul>
+          <li>Rapidity (how fast can you move around in the simulated environment?)</li>
+          <li>Information Gathering ability (how easy is it to get relevant information from the environment when moving?)</li>
+          <li>Situation awareness (how aware are you am of where you are in the environment after moving?)</li>
+          <li>Usability (how easy is it to move around?)</li>
+        </ul>
+        The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identifying hazards.
+        <br/>
+
+      
         <div>
-          <h4>Method 1: simple weighting</h4>
+          <h4>Criteria importance - Method 1: simple weighting</h4>
           <p>Give each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (about hazards identification). </p>
           <p>The <b style="color:#dd6600">total sum must be 12</b>.</p>
           <p></p>
@@ -493,10 +524,10 @@
           </div>
           <br/>
 
-          <h4>Method 2: cross-weighting</h4>
+          <h4>Criteria importance - Method 2: cross-weighting</h4>
           <p>This table also allows you to classify the importance of these criteria. However, here the criteria are compared pairwise.</p>
           <img src="./media/tableCroisee.png" alt="TODO" style="width:auto; height:100%; max-height:100px"></img>
-          <p>For two criteria (here Rapidity and IGA), first choose in the dropdown list (Rapidity/IGA) the one which is the most important to you. Then, put the relative weight 0, 1 or 2 in the second dropdown list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance to you.</p>.
+          <p>For two criteria (here Rapidity and IGA), first choose in the dropdown list (Rapidity/IGA) the one which is the most important to you (Rapidity OR IGA). Then, put the relative weight 0, 1 or 2 in the second dropdown list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance, in your opinion.</p>.
           <br/>
           <table>
             <tr>
@@ -625,10 +656,10 @@
             <ul>
               <li>1A - First, a <b>"direct" navigation technique</b> is available: clicking <b>on the ground</b> moves you at the point you click.
               <br/>
-              <b>When you're done, <b>click on the red/orange panel</b> to switch to the next navigation practice scene.    </li>
+              When you are done, <b>click on the red/orange panel</b> to switch to the next navigation practice scene.    </li>
               <br/>
-              <li>1B - Secondly, a <b>"indirect" navigation technique</b> is available: clicking <b>on the mini-map</b> moves you to the corresponding point in the environment.
-              <br/>When you're done, click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
+              <li>1B - Secondly, an <b>"indirect" navigation technique</b> is available: clicking <b>on the mini-map</b> moves you to the corresponding point in the environment.
+              <br/>When you are done, click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
             </ul>
           </li>
           <br/>
@@ -638,7 +669,7 @@
               <li>You must navigate around the central building, and <b>check its four facades</b>. The other buildings around it do not have to be inspected.</li>
               <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in a hazardous situation.</li>
               <li>You must, when you have come back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Remember to do it!</li>
-              <li>After finishing the <b>first real scenario (2A)</b>, the <b>second one (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you're done. </li>
+              <li>After finishing the <b>first real scenario (2A)</b>, the <b>second one (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
             </ul>
           </li>
         </ol>
@@ -679,7 +710,7 @@
 
           <div class="column">
             <h4>Identify a worker in a hazardous situation</h4>
-            <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to signal him as in a hazardous situation. To undo this, click again on him. When you're done, press the H key again <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to <b>"navigation mode"</b>.
+            <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to signal him as in a hazardous situation. To undo this, click again on him. When you are done, press the H key again <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to <b>"navigation mode"</b>.
             </p>
             <p>              
               <button onclick="document.getElementById('hGIF').src='./media/haz.gif'">Play GIF</button>
