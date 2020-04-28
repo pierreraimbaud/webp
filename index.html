@@ -11,23 +11,30 @@
         background: #ECEFF1;
         color: rgba(0,0,0,0.87);
         font-family: Roboto, Helvetica, Arial, sans-serif;
-        margin: 10%;
+        margin: 0;
         padding: 0;
       }
 
+      main {
+        margin: 10px 10% 20px 10%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      h3 {
+        color: #4C9F50;
+      }
       .center {
         margin: auto;
         text-align: center;
       }
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-      }
 
-      td, th {
-        border: 1px solid #dddddd;
-        text-align: center;
-        padding: 8px;
+      .centerImg {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
       }
     </style>
 
@@ -44,18 +51,22 @@
   </head>
 
   <body>
+    <main>
     <h1 class="center">Hazard identification in a virtual worksite</h1>
     </br></br>
 
     <h2><u style="color:grey">An experience about the navigation techniques in a virtual world</u></h2>
 
     <h3>Purpose of the study</h3>
-    <p>This experiment aims to evaluate some navigation techniques for the specific task of hazard identification.
-    </br>
-    <p>Two modalities are offered to participate to this experiment, both remotely. You <b>only can do one.</b></p>.
-    <p>If you have a VR heaset, and you have received the application (an APK for an Oculus Quest, an exe for an HTC Vive), click here: <button onclick="govr()">I have used the app in a VR headset</button></p>
-    <p>Otherwise, please click here, to participate, on a desktop version (WebGL): <button onclick="gogl()">I want to participate on my computer</button></p>
-
+    This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards.
+    <br/><br/>
+    <p><b>Two modalities</b> are offered to participate to this experiment, both remotely. You <b>only can do one.</b></p>
+    <ul>
+      <li>If you have a <b style="color:red">VR headset</b>, and you have received the application <b style="color:red">- NOT YET AVAILABLE -</b> (an APK for an Oculus Quest, an exe for an HTC Vive), click here: <button disabled onclick="govr()">I have used the app in a VR headset</button></li>
+      <br/>
+      <li>Otherwise, a desktop version (WebGL) is available, click here to participate : <button onclick="gogl()">I want to participate on my computer</button></li>
+    </ul>
+    </main>
   </body>
 
 </html>
