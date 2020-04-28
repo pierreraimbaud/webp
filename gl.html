@@ -9,7 +9,18 @@
     <title>Virtual Hazard Identification</title>
 
     <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      body {
+        background: #ECEFF1;
+        color: rgba(0,0,0,0.87);
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        margin: 10px 10% 20px 10%;
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -396,7 +407,7 @@
           }).then(
               () => {
                 window.alert("Form sent!");
-                reff.onDisconnect().cancel(); 
+                reff.onDisconnect().cancel();
                 document.getElementById("questionnaireDiv").style.display = 'none';
                 document.getElementById("questionnaireDoneDiv").style.display = 'block';
                 document.getElementById("checkListDiv").style.display = 'block';
@@ -414,6 +425,8 @@
 
   <body>
 
+    <main>
+
     <div id="titles">
       <h1 class="center">Hazard identification in a virtual worksite</h1>
       <br/><br/>
@@ -422,14 +435,14 @@
 
     <div id="introDiv">
       <h3>Informed consent</h3>
-      <p>The following disclaimer is considered as an informed consent:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By entering filling the forms and use the application with the virtual worksite, you accept to participate to this experiment and consent to transmit these data. No personal data with be collected. Results are collected only for academic purpose for writing or oral communication.</i></p></font>
+      <p>By reading the following disclaimer, submitting the form below and going on with the experiment, we consider that you give your informed consent about the following:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By filling in the forms and using the application with the virtual worksite, you accept to participate in this experiment and consent to transmit the afferent data. No personal data will be collected. Results are collected only for academic purposes for writing or oral communication.</i></p></font>
 
       <h3>Purpose of the study</h3>
       This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards here.
       <br/><br/>
       <img src="./media/expe.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application with a virtual worksite</figcaption>
       <br/><br/>
-      You will<b> use 2 navigation techniques, each one 1 time</b>. Please do no repeat the experiment, except in case of a severe bug (crash, results not sent, impossibility to finish the experiment).
+      You will<b> use two navigation techniques, one time each</b>. Please do no repeat the experiment, except in case of a severe bug (crash, results not getting sent, impossibility to finish the experiment).
       <br/>
 
       <h3>Preliminary steps</h3>
@@ -442,27 +455,27 @@
 
     <div id="questionnaireDiv" >
       <h3>Pre-experiment questionnaire</h3>
-      <p>Navigation can be done using very different techniques, but some are more useful than other depending on what is your current task or intention. </p>
-      <b>Here your task is to identify hazards on a worksite.</b>
-      We are considering the four following criteria as criteria that influence the quality of the navigation:
+      <p>Navigation can be done using very different techniques, but some are more useful than others depending on what your current task or intention are. </p>
+      <b>Here, your task is to identify hazards on a worksite.</b>
+      We are considering the four following criteria as influencing the quality of the navigation:
       <ul>
-        <li>Rapidity (how fast when moving)</li>
-        <li>Information Gathering ability (how easy is it to get relevant information from the environment when moving)</li>
-        <li>Situation awareness (how aware am I of where I am in the environment after moving)</li>
-        <li>Usability (how easy is it to move)</li>
+        <li>Rapidity (how fast can you move around in the simulated environment)</li>
+        <li>Information Gathering ability (how easy it is to get relevant information from the environment when moving)</li>
+        <li>Situation awareness (how aware I am of where I am in the environment after moving)</li>
+        <li>Usability (how easy it is to move around)</li>
       </ul>
-      The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identify hazards.
+      The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identifying hazards.
       <br/>
 
       <form name="myForm" id="questionnaire">
         <div>
-          <h4>Method 1 for classifying</h4>
-          <p>Give to each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (hazards). </p>
+          <h4>Method 1: simple weighting</h4>
+          <p>Give each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (about hazards identification). </p>
           <p>The <b style="color:#dd6600">total sum must be 12</b>.</p>
           <p></p>
           <div>0<input type="range" name="QF1" id="QF1" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF1out.value = QF1.value">6 &emsp; Rapidity: 
             <output name="QF1out" id="QF1out"></output>
-          </div> 
+          </div>
           <br/><br/>
           <div>0<input type="range" name="QF2" id="QF2" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF2out.value = QF2.value">6 &emsp; Information Gathering ability (IGA): 
             <output name="QF2out" id="QF2out"></output>
@@ -479,10 +492,11 @@
           <div style="color:#dd6600"><b>Total: <output  name="totSum" id="totSum"></output> <output  name="totSumSentence" id="totSumSentence"></output></b>
           </div>
           <br/>
-          <h4>Method 2 for classifying</h4>
-          <p>This table also allows to classify the importance of these criteria. However, here the criteria are compared by pair.</p>
+
+          <h4>Method 2: cross-weighting</h4>
+          <p>This table also allows you to classify the importance of these criteria. However, here the criteria are compared pairwise.</p>
           <img src="./media/tableCroisee.png" alt="TODO" style="width:auto; height:100%; max-height:100px"></img>
-          <p>For two criteria (here Rapidity and IGA), first choose in the list (Rapidity/IGA) the one which is the most important between the two. Then, put 0, 1 or 2 in the second list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance for you.</p>.
+          <p>For two criteria (here Rapidity and IGA), first choose in the dropdown list (Rapidity/IGA) the one which is the most important to you. Then, put the relative weight 0, 1 or 2 in the second dropdown list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance to you.</p>.
           <br/>
           <table>
             <tr>
@@ -604,27 +618,27 @@
       <h3>The tutorial of the 3D application</h3>
 
       <div id="textExplanations">
-        <h4>What do I have to do ?</h4>
+        <h4>What do I have to do?</h4>
         <ol>
-          <li>Practice time: you must <b>move</b> around the building, <b>around the 4 facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker:
+          <li>Practice time: you must <b>move</b> around the building, <b>around the four facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker:
             <br/><br/>
             <ul>
-              <li>1A - First, a <b>"direct" navigation technique</b> is available: I click <b>on the ground</b> and I move there. 
+              <li>1A - First, a <b>"direct" navigation technique</b> is available: clicking <b>on the ground</b> moves you at the point you click.
               <br/>
-              <b>When I am done, I click on a red/orange panel </b> to go to the next navigation.    </li>
-              <br/>          
-              <li>1B - Secondly, a <b>"indirect" navigation technique</b> is available: I click <b>on the map</b> and I move.
-              <br/>When I am done, I click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
+              <b>When you're done, <b>click on the red/orange panel</b> to switch to the next navigation practice scene.    </li>
+              <br/>
+              <li>1B - Secondly, a <b>"indirect" navigation technique</b> is available: clicking <b>on the mini-map</b> moves you to the corresponding point in the environment.
+              <br/>When you're done, click on the red/orange panel. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
             </ul>
           </li>
           <br/>
           <li>For these <b>two real scenarios (2A and 2B):</b>
             <ul>
               <li>2A will be with direct or indirect navigation, and 2B with the other one.</li>
-              <li>You must navigate around the central building, and <b>check its 4 facades</b>. The other buildings around it do not have to be inspected.</li>
-              <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in an hazardous situation.</li>
-              <li>You must, when you have came back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Don't forget it !</li>
-              <li>After finishing the <b>first real scenario (2A)</b>, the <b>second (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
+              <li>You must navigate around the central building, and <b>check its four facades</b>. The other buildings around it do not have to be inspected.</li>
+              <li>You must <b>identify the workers that are in an hazardous situation</b> by clicking on them. <b>Some</b> workers are <b>NOT</b> in a hazardous situation.</li>
+              <li>You must, when you have come back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Remember to do it!</li>
+              <li>After finishing the <b>first real scenario (2A)</b>, the <b>second one (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you're done. </li>
             </ul>
           </li>
         </ol>
@@ -664,14 +678,14 @@
           </div>
 
           <div class="column">
-            <h4>Identify a worker in an hazardous situation</h4>
-            <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter in <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to identify him as in an hazardous situation. To undo this, click again on him. When you are done, press again the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to the <b>"navigation mode"</b>.
+            <h4>Identify a worker in a hazardous situation</h4>
+            <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to signal him as in a hazardous situation. To undo this, click again on him. When you're done, press the H key again <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to <b>"navigation mode"</b>.
             </p>
             <p>              
               <button onclick="document.getElementById('hGIF').src='./media/haz.gif'">Play GIF</button>
               <button onclick="document.getElementById('hGIF').src='./media/fix/hzStop.png'">Stop</button>
             </p>
-            <img src="./media/haz.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in an hazardous situation</figcaption>
+            <img src="./media/haz.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in a hazardous situation</figcaption>
           </div>
         </div>
 
@@ -710,12 +724,12 @@
           </div>
         </div>
 
-        <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. And then, you can re-show it again <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
+        <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. You can then unhide it again with the same button <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
       </div>
 
     </div>
 
-    
+
     <div id="questionnaireDoneDiv"  style="display:none">
       <h3>Pre-experiment questionnaire</h3>
       <p>Form sent ✔</p>
@@ -724,7 +738,7 @@
     <div id="checkListDiv"  style="display:none">
       <h3>Do the experiment</h3>
       <p>Are you ready? Please do this check-list.</p>
-      <p>If this is all OK, validate to start the experiment !</p>
+      <p>If all of this is OK, validate to start the experiment!</p>
       <form name="checkList" id="checkList" onsubmit="return checkReady()">
         <label class="checkbox">
           <input form="checkList" type="checkbox" name="step1"/>
@@ -744,10 +758,11 @@
     </div>
 
     <div id="finalDiv" style="display:none">
-      <p>Thank you a lot for participating to this experiment.</p>
+      <p>Thank you a lot for participating in this experiment.</p>
       <p>Please do not repeat the experiment several times because your results would be biaised.</p>
-      <b>HOWEVER</b><ul><li>Feel free to share the page with friends !</li><li>If you live with other people who also want to participate, please click <button onclick="window.location.reload()">here</button></li></ul>
+      <b>HOWEVER</b><ul><li>Feel free to share the page with friends!</li><li>If you live with other people who also want to participate, please click <button onclick="window.location.reload()">here</button></li></ul>
     </div>
+    </main>
 
     <div class="webgl-content">
       <div id="unityContainer" style="height:1px; width:1px;" >
