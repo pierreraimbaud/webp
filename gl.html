@@ -356,6 +356,18 @@
 
         function validateForm() {
 
+          var fname = document.forms["myForm"]["fname"].value;
+          var lname = document.forms["myForm"]["lname"].value;
+
+          if (fname == "") {
+            alert("You must enter a first name. If you really don't want too, enter a sequence of random 8 letters");
+            return false;
+          }
+          if (lname == "") {
+            alert("You must enter a last name. If you really don't want too, enter a sequence of random 8 letters");
+            return false;
+          }
+
           var YN_AEC = document.forms["myForm"]["YN_AEC"].value;
           var YN_JV = document.forms["myForm"]["YN_JV"].value;
           var YN_H = document.forms["myForm"]["YN_H"].value;
@@ -393,6 +405,8 @@
 
           const reff = firebase.database().ref("GL_exp1_QF" + "/" +entry +"/");
           reff.set({
+            fname: fname,
+            lname: lname,
             YN_AEC: YN_AEC,
             YN_JV: YN_JV,
             YN_H: YN_H,
@@ -444,7 +458,7 @@
 
     <div id="introDiv">
       <h3>Informed consent</h3>
-      <p>By reading the following disclaimer, submitting the form below and going on with the experiment, we consider that you give your informed consent about the following:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By filling in the forms and using the application with the virtual worksite, you accept to participate in this experiment and consent to transmit the afferent data. No personal data will be collected. Results are collected only for academic purposes for writing or oral communication.</i></p></font>
+      <p>By reading the following disclaimer, submitting the form below and going on with the experiment, we consider that you give your informed consent about the following:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By filling in the forms and using the application with the virtual worksite, you accept to participate in this experiment and consent to transmit the afferent data. Personal data such as names will NOT be shared, used, in any kind of communication. Only performance results from the experiment itself could be used for writing or oral communication.</i></p></font>
 
       <h3>Purpose of the study</h3>
       This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards.
@@ -466,6 +480,10 @@
       <h3>Pre-experiment questionnaire</h3>
       <form name="myForm" id="questionnaire">
         <h4>Personal background</h4>
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br/><br/>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname">
         <ul>
           <li>Is your field of study or work the Architecture, Engineering and Construction (AEC) field? <i>(do not put Yes if you belong to another kind of engineering that AEC)</i>
             <select id="YN_AEC">
