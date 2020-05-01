@@ -323,7 +323,7 @@
       <h3>Purpose of the study</h3>
       This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards.
       <br/><br/>
-      <img src="./media/expe.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application with a virtual worksite</figcaption>
+      <img src="./media/vr/stop.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application in a virtual worksite</figcaption>
       <br/><br/>
       You will<b> use two navigation techniques, one time each</b>. Please do no repeat the experiment, except in case of a severe bug (crash, results not getting sent, impossibility to finish the experiment).
       <br/>
@@ -343,14 +343,14 @@
         <div id="textExplanations">
           <h4>What do I have to do?</h4>
           <ol>
-            <li>Practice time: you must <b>move</b> around the building, <b>around the four facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker. <b>Note that this worker is NOT in a hazardous situation, but it allows practising marking a hazard with the mouse.</b>
+            <li>Practice time: you must <b>move</b> around the building using <b style="color:#22aa55">the laser emitted by the Oculus Quest controller</b>, <b>around the four facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker. <b>Note that this worker is NOT in a hazardous situation, but it allows practising marking a hazard, also with the laser emitted by the Oculus Quest controller.</b>
               <br/><br/>
               <ul>
-                <li>1A - First, a <b>"direct" navigation technique</b> is available: clicking <b>on the ground</b> moves you at the point you click.
+                <li>1A - First, a <b>"direct" navigation technique</b> is available: the <b style="color:#22aa55">laser</b> must be  <b style="color:#22aa55">on the ground</b>, and pressing down the trigger of the controller, it moves you to the point.
                 <br/>
-                When you are done, <b style="color:#ff3300">click on the red/orange panel</b> to switch to the next navigation practice scene.    </li>
+                When you are done, <b style="color:#ff3300">click on the red/orange panel</b> to switch to the next navigation practice scene.</li>
                 <br/>
-                <li>1B - Secondly, an <b>"indirect" navigation technique</b> is available: clicking <b>on the mini-map</b> moves you to the corresponding point in the environment.
+                <li>1B - Secondly, an <b>"indirect" navigation technique</b> is available: the  <b style="color:#22aa55">laser</b> must be  <b style="color:#22aa55">on the map</b>, and pressing down the trigger of the controller, it moves you to the point.
                 <br/>When you are done, <b style="color:#ff3300"> click on the red/orange panel</b>. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
               </ul>
             </li>
@@ -359,56 +359,47 @@
               <ul>
                 <li>2A will be with direct or indirect navigation, and 2B with the other one.</li>
                 <li>You must navigate around the central building, and <b>check its four facades</b>. The other buildings around it do not have to be inspected.</li>
-                <li><b>⚠</b> You must <b style="color:#aa3333">identify the workers that are in an hazardous situation</b> by clicking on them. <b style="color:#aa3333"> ⚠ Some</b> workers are <b style="color:#aa3333">NOT</b> in a hazardous situation.</li>
+                <li><b>⚠</b> You must <b style="color:#aa3333">identify the workers that are in an hazardous situation</b> by putting the <b style="color:#22aa55">laser</b> on them and then <b style="color:#22aa55">pressing down the grip</b> of the controller. <b style="color:#aa3333"> ⚠ Some</b> workers are <b style="color:#aa3333">NOT</b> in a hazardous situation.</li>
                 <li>You must, when you have come back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Remember to do it!</li>
                 <li>After finishing the <b>first real scenario (2A)</b>, the <b>second one (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
               </ul>
             </li>
           </ol>
           <p>This picture summarises the experiment with : 1A) and 1B) as training phases (one for each navigation) and 2A) and 2B) as real scenario phases with measures.</p>
-          <img src="./media/orderScenarios.jpg" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
+          <img src="./media/vr/orderScenarios.jpg" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
         </div>
         
         <br/>
 
         <div id="gifs">
-          <h4>The commands (mouse and keyboard)</h4>
+          <h4>The commands (Quest controller)</h4>
+
+          <p>In this application, the <b style="color:#dd5253">right controller</b> of the Oculus Quest is used. This is <b>emitting continuously a laser</b> which allow to "click" on the ground, the map, or the workers, by <b style="color:#dd5253">pressing down the trigger button</b>.</p>
+          <img src="./media/vr/quest.png" id="quest" alt="TODO" style="width:auto; height:100%; max-height:350px"></img><figcaption><b>Right Quest controller buttons used here (in red)</b></figcaption>
 
           <div class="row">
 
             <div class="column">
-              <h4>Orientate</h4>
-              <p>To orient the point of view, use the mouse RIGHT click, hold it down and move the mouse
-                <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
+              <h4>Orientation</h4>
+              <p>To <b style="color:#dd5253">orient</b> the point of view, just <b style="color:#dd5253">move your head</b>. Take into account that you will check the 4 facades of a building, so be in a position where you can rotate 360° in total.
               </p>
-              <p>
-                <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play GIF</button>
-                <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
-              </p>
-              <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Camera orientation</figcaption>
+              <img src="./media/vr/orient.png" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:150px"></img><figcaption>Before rotation</figcaption>
+              <img src="./media/vr/orient2.png" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:150px"></img><figcaption>After rotation</figcaption>
+
             </div>
 
             <div class="column">
               <h4>Stop moving</h4>
-              <p>To stop moving, press once the S key on the keyboard.
-                <img src="./media/s_key.jpg" alt="stop" style="width:auto; height:100%; max-height:30px"></img>
+              <p>To <b style="color:#dd5253">stop</b> moving, press once the <b style="color:#dd5253">A touch</b> on the Oculus Quest controller.
               </p>
-              <p>
-                <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play GIF</button>
-                <button onclick="document.getElementById('stopGIF').src='./media/fix/sStop.png'">Stop</button>
-              </p>
-              <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
+              <img src="./media/vr/stop.png" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
             </div>
 
             <div class="column">
               <h4>Identify a worker in a hazardous situation</h4>
-              <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to signal him as in a hazardous situation. To undo this, click again on him. When you are done, press the H key again <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to <b>"navigation mode"</b>.
+              <p>First, <b style="color:#dd5253">press once the grip touch </b> on the Oculus Quest controller to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The laser will become <b style="color:#808000">yellow</b>. Then, <b style="color:#dd5253">press down the trigger</b> on the Oculus Quest controller on a worker to signal him as in a hazardous situation. To undo this, click again on him. When you are done, <b style="color:#dd5253">press again the grip touch </b> on the Quest controller to get back to <b>"navigation mode"</b>.
               </p>
-              <p>              
-                <button onclick="document.getElementById('hGIF').src='./media/haz.gif'">Play GIF</button>
-                <button onclick="document.getElementById('hGIF').src='./media/fix/hzStop.png'">Stop</button>
-              </p>
-              <img src="./media/haz.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in a hazardous situation</figcaption>
+              <img src="./media/vr/hazard.png" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in a hazardous situation</figcaption>
             </div>
           </div>
 
@@ -417,37 +408,25 @@
           <div class="row">
             <div class="column">
               <h4>Direct navigation technique</h4>
-              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the floor</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+              <p><b style="color:#dd5253">Press down the trigger </b> on the Oculus Quest controller <b style="color:#dd5253">on the ground </b>to move to a point automatically. When moving is allowed, the laser is <b style="color:#008000">green</b>, otherwise <b style="color:#aa0000">red</b>.
               </p>
-              <p>
-                <button onclick="document.getElementById('directGIF').src='./media/direct.gif'">Play GIF</button>
-                <button onclick="document.getElementById('directGIF').src='./media/fix/rotStop.png'">Stop</button>
-              </p>
-              <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
+              <img src="./media/vr/direct.png" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
             </div>
             <div class="column">
               <h4>Indirect navigation technique</h4>
-              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the map</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+              <p><b style="color:#dd5253">Press down the trigger </b> on the Oculus Quest controller <b style="color:#dd5253">on the map </b>to move to a point automatically. When moving is allowed, the laser is <b style="color:#008000">green</b>, otherwise <b style="color:#aa0000">red</b>.
               </p>
-              <p>
-                <button onclick="document.getElementById('indirectGIF').src='./media/indirect.gif'">Play GIF</button>
-                <button onclick="document.getElementById('indirectGIF').src='./media/fix/indStop.png'">Stop</button>
-              </p>
-              <img src="./media/indirect.gif" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
+              <img src="./media/vr/indirect.png" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
             </div>
             <div class="column">
               <h4>End</h4>
-              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>. Always click on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the map, even in indirect navigation.
+              <p><b style="color:#dd5253">Press down the trigger </b> on the Oculus Quest controller on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the map, even in indirect navigation.
               </p>
-              <p>
-                <button onclick="document.getElementById('finGIF').src='./media/fin.gif'">Play GIF</button>
-                <button onclick="document.getElementById('finGIF').src='./media/fix/indStop.png'">Stop</button>
-              </p>
-              <img src="./media/fin.gif" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
+              <img src="./media/vr/fin.png" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
             </div>
           </div>
 
-          <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. You can then unhide it again with the same button <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
+          <p><b>NB</b>: You can also hide the map by putting the laser on the orange button and pressing down the trigger <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. You can then unhide it again with the same button <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
           <br/>
           <h3 style="color:#dd5253">When you are ready, please copy the VR app APK in your Oculus Quest, put your headset on, and start the app !</h3>
           <br/>
