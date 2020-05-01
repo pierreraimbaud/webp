@@ -1,18 +1,61 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <title>Virtual Hazard Identification</title>
 
     <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      body {
+        background: #ECEFF1;
+        color: rgba(0,0,0,0.87);
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        margin: 10px 10% 20px 10%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      h3 {
+        color: #4C9F50;
+      }
+      .column {
+        float: left;
+        width: 33.33%;
+        padding-right: 10px;
+      }
+      .column-small {
+        float: left;
+        width: 13.33%;
+        padding: 5px;
+      }
+
+      .row::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
 
       .center {
         margin: auto;
         text-align: center;
       }
+
+      .centerImg {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
+
       table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -23,15 +66,82 @@
         text-align: center;
         padding: 8px;
       }
+
+      .checkbox {
+        display: inline-flex;
+        cursor: pointer;
+        position: relative;
+        content: '✔';
+      }
+
+      .checkbox > span {
+        color: #34495E;
+        padding: 0.5rem 0.25rem;
+        content: '✔';
+      }
+
+      .checkbox > input {
+        height: 25px;
+        width: 25px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        border: 1px solid #34495E;
+        border-radius: 4px;
+        outline: none;
+        transition-duration: 0.3s;
+        background-color: #ffffff;
+        cursor: pointer;
+        content: '✔';
+      }
+
+      .checkbox > input:checked {
+        content: '✔';
+        border: 1px solid #41B883;
+        background-color: #ffffff;
+      }
+
+      .checkbox > input:checked + span::before {
+        content: '✔';
+        display: block;
+        text-align: center;
+        color: #41B883;
+        position: absolute;
+        left: 0.7rem;
+        top: 0.2rem;
+      }
+
+      .checkbox > input:active {
+        border: 2px solid #34495E;
+      }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
 
+
+
+
     <script type="text/javascript">
+      //Global vars
       var userID="";
 
-            // Database configuration
+
+
+      var s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      var entry;
+
+
+
+
+
+
+
+
+
+
+      // Database configuration
       var firebase;
       var firebaseConfig = {
         apiKey: "AIzaSyCHosedsYmLQUfGwQsHXdLK47BJd6t5j_c",
@@ -46,21 +156,76 @@
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
 
+      function showFinal(){
+          document.getElementById("finalDiv").style.display = 'block';
+          //scrollingElement = (document.scrollingElement || document.body)
+          //scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      }
 
       function goForm() {
+        document.getElementById("introDiv").style.display = 'none';
         document.getElementById("step1").style.display = 'none';
         document.getElementById("step2").style.display = 'none';
-        document.getElementById("step3").style.display = 'block';
+        //document.getElementById("step3").style.display = 'block';
       }
 
       function validateID() {
+
         userID = document.forms["qID"]["VRID"].value;
+
+        if (userID == "") {
+          alert("You must enter the ID shown at the end of the experiment in the headset. \n\nIf you forgot to write it, write a random sequence of 6 letters.");
+          return false;
+        }
+
         window.alert("ID registered: "+userID);
+        document.getElementById("qID").reset();
+        goForm();
         document.getElementById("step3").style.display = 'none';
         document.getElementById("step4").style.display = 'block';
+
+        var url = location.href;               //Save down the URL without hash.
+        location.href = "#"+"qref";                 //Go to the target element.
+        history.replaceState(null,null,url);   //Don't like hashes. Changing it back.
+      }
+
+
+      function calculateSum(){
+        var QF1 = document.forms["myForm"]["QF1out"].value;
+        var QF2 = document.forms["myForm"]["QF2out"].value;
+        var QF3 = document.forms["myForm"]["QF3out"].value;
+        var QF4 = document.forms["myForm"]["QF4out"].value;
+        var tot = +QF1 + +QF2 + +QF3 + +QF4;
+        document.getElementById('totSum').value = tot;
+        var totSumSentence = document.getElementById('totSumSentence');
+        if (tot<12){
+          totSumSentence.value= " - Too low, must be 12.";
+        }
+        else if (tot>12){
+          totSumSentence.value= " - Too high, must be 12.";
+        }
+        else{
+          totSumSentence.value= "- Sum is 12, perfect.";
+        }  
       }
 
       function validateForm() {
+
+        var fname = document.forms["myForm"]["fname"].value;
+        var lname = document.forms["myForm"]["lname"].value;
+
+        if (fname == "") {
+          alert("You must enter a first name. If you really don't want too, enter a sequence of random 8 letters");
+          return false;
+        }
+        if (lname == "") {
+          alert("You must enter a last name. If you really don't want too, enter a sequence of random 8 letters");
+          return false;
+        }
+
+        var YN_AEC = document.forms["myForm"]["YN_AEC"].value;
+        var YN_JV = document.forms["myForm"]["YN_JV"].value;
+        var YN_H = document.forms["myForm"]["YN_H"].value;
 
         var QF1 = document.forms["myForm"]["QF1out"].value;
         var QF2 = document.forms["myForm"]["QF2out"].value;
@@ -68,8 +233,8 @@
         var QF4 = document.forms["myForm"]["QF4out"].value;
         var tot = +QF1 + +QF2 + +QF3 + +QF4;
 
-        if (tot != 10) {
-          alert("Sum must be 10");
+        if (tot != 12) {
+          alert("The total of the weight in Method 1 must be 12");
           return false;
         }
 
@@ -89,212 +254,423 @@
 
 
         if (c1_2w == 0 && c1_3w ==0 && c1_4w ==0 && c2_3w == 0 && c2_4w ==0 && c3_4w ==0) {
-          alert("You must fill this comparison table");
+          alert("You must fill the table - cannot be 0 everywhere");
           return false;
         }
+
         if(userID == null || userID == '') {
-          var s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
           userID = Array(8).join().split(',').map(function() { return s.charAt(Math.floor(Math.random() * s.length)); }).join('');
         }
-        var pathToSave = "VR_exp1_QF" + "/" +userID +"/";
-        firebase.database().ref(pathToSave).set({
-          QF1: QF1,
-          QF2: QF2,
-          QF3: QF3,
-          QF4: QF4,
-          c1_2:c1_2,
-          c1_2w:c1_2w,
-          c1_3:c1_3,
-          c1_3w:c1_3w,
-          c1_4:c1_4,
-          c1_4w:c1_4w,
-          c2_3:c2_3,
-          c2_3w:c2_3w,
-          c2_4:c2_4,
-          c2_4w:c2_4w,
-          c3_4:c3_4,
-          c3_4w:c3_4w,
-        });
-        
+
+        entry = Date.now()+"_"+userID;
+
+        var pathToSave = "VR_exp1_QF" + "/" +entry +"/";
+
+        const reff = firebase.database().ref(pathToSave);
+        reff.set({
+            fname: fname,
+            lname: lname,
+            YN_AEC: YN_AEC,
+            YN_JV: YN_JV,
+            YN_H: YN_H,
+            QF1: QF1,
+            QF2: QF2,
+            QF3: QF3,
+            QF4: QF4,
+            c1_2:c1_2,
+            c1_2w:c1_2w,
+            c1_3:c1_3,
+            c1_3w:c1_3w,
+            c1_4:c1_4,
+            c1_4w:c1_4w,
+            c2_3:c2_3,
+            c2_3w:c2_3w,
+            c2_4:c2_4,
+            c2_4w:c2_4w,
+            c3_4:c3_4,
+            c3_4w:c3_4w,
+          }).then(
+              () => {
+                window.alert("Form sent!");
+                document.getElementById("questionnaire").reset();
+                reff.onDisconnect().cancel();
+                document.getElementById("questionnaireDiv").style.display = 'none';
+                showFinal();
+                },
+                reason => {
+                  window.alert("Error when sending form. Please try refreshing the page.");
+                }
+            );
       }
     </script>
-
   </head>
 
   <body>
-    <h1 class="center">Hazard identification in a virtual worksite</h1>
-    </br></br>
+    
+    <main>
 
-    <h2><u style="color:grey">An experience about the navigation techniques in a virtual world</u></h2>
+    <div id="titles">
+      <h1 class="center">Hazard identification in a virtual worksite</h1>
+      <br/><br/>
+      <h2><u style="color:grey">An experience about the navigation techniques in a virtual world</u></h2>
+    </div>
+
+    <div id="introDiv">
+      <h2 style="color:#dd5253">The VR app for Oculus Quest has been released! You can download the APK <a href="./media/navTechHazard1.apk" download target="_blank">here</a>.</h2>
+      <h3>Informed consent</h3>
+      <p>By reading the following disclaimer, submitting the form below and going on with the experiment, we consider that you give your informed consent about the following:<br/><br/><font size="-1"><i>This webpage has been created only for academic purpose. By filling in the forms and using the application with the virtual worksite, you accept to participate in this experiment and consent to transmit the afferent data. Personal data such as names will NOT be shared, used, in any kind of communication. Only performance results from the experiment itself could be used for writing or oral communication.</i></p></font>
+
+      <h3>Purpose of the study</h3>
+      This study has been created to allow evaluating some navigation techniques in a virtual environment, for the specific task of hazard identification in a worksite. These will be only fall hazards and struck-by hazards.
+      <br/><br/>
+      <img src="./media/expe.png" alt="TODO" class="centerImg" style="width:auto; height:100%; max-height:300px"></img><figcaption class=center>The 3D application with a virtual worksite</figcaption>
+      <br/><br/>
+      You will<b> use two navigation techniques, one time each</b>. Please do no repeat the experiment, except in case of a severe bug (crash, results not getting sent, impossibility to finish the experiment).
+      <br/>
+
+      <h3>Pre-experiment steps</h3>
+      <ol>
+        <li>Download and read this <b>informative PDF</b> about fall and struck-by hazards, available <a href="./media/HazardsTutorial.pdf" download target="_blank">here</a>.</li>
+        <li>Read the <b>tutorial</b> about the 3D application and its commands.</li>
+      </ol>
+    </div>
 
     <div id="step1">
       <div id="tutorial">
-        <h2 style="color:red">The VR app (for Oculus Quest and HTC Vive) will be released soon</h2>
-        <h3>Purpose of the study</h3>
-        This experiment aims to evaluate some locomotion techniques for the specific task of hazard identification. </br>You would have <b>to repeat the experiment for 2 techniques, ONLY 1 time for each technique</b>. Repeat the experiment ONLY in case of a severe bug, such as an infinite move of the player.
-        </br>
-        <img src="/media/demoDirect.png" alt="TODO" style="width:auto; height:100%; max-height:250px"></img>
-              <img src="/media/default.png" alt="TODO" style="width:auto; height:100%; max-height:250px"></img>
+        <a name="tuto"></a>
+        <h3>The tutorial of the 3D application</h3>
 
-        <a href="/HazardsTutorial.pdf" download target="_blank">Documentation about hazards</a>
-        <h4>Protocol</h4>
-        You would have to follow the following steps, 1 time for each technique:
-        <ol>
-          <li>Read the OSHA information about fall and struck-by hazards</li>
-          <li>Fill the questionnaire</li>
-          <li>Practise the technique of navigation, by moving around the building</li>
-          <li>Search the workers that are in an hazardous situation in the virtual worksite</li>
-            <ul>
-              <li>The central building is the one which is currently in construction during the worksite. The buildings around it are already finished.</li>
-              <li>The experiment starts in a corner of the central building. Move around the central building, along its 4 facades.</li>
-              <li><b>You must check the 4 facades, and come back to the starting point.</b></li>
-              <li>When you have came back, <b style="color:#ff3300">click on the red parallelepiped to end the game. Please, don't forget it</b> otherwise your completion task time will be false.</li>
-            </ul>
-        </ol>
+        <div id="textExplanations">
+          <h4>What do I have to do?</h4>
+          <ol>
+            <li>Practice time: you must <b>move</b> around the building, <b>around the four facades </b> and finally <b>identify</b> a "fake hazard" by clicking on a worker. <b>Note that this worker is NOT in a hazardous situation, but it allows practising marking a hazard with the mouse.</b>
+              <br/><br/>
+              <ul>
+                <li>1A - First, a <b>"direct" navigation technique</b> is available: clicking <b>on the ground</b> moves you at the point you click.
+                <br/>
+                When you are done, <b style="color:#ff3300">click on the red/orange panel</b> to switch to the next navigation practice scene.    </li>
+                <br/>
+                <li>1B - Secondly, an <b>"indirect" navigation technique</b> is available: clicking <b>on the mini-map</b> moves you to the corresponding point in the environment.
+                <br/>When you are done, <b style="color:#ff3300"> click on the red/orange panel</b>. <b>The next scenario is a real one, where your performance will be measured.</b> </li>
+              </ul>
+            </li>
+            <br/>
+            <li>For these <b>two real scenarios (2A and 2B):</b>
+              <ul>
+                <li>2A will be with direct or indirect navigation, and 2B with the other one.</li>
+                <li>You must navigate around the central building, and <b>check its four facades</b>. The other buildings around it do not have to be inspected.</li>
+                <li><b>⚠</b> You must <b style="color:#aa3333">identify the workers that are in an hazardous situation</b> by clicking on them. <b style="color:#aa3333"> ⚠ Some</b> workers are <b style="color:#aa3333">NOT</b> in a hazardous situation.</li>
+                <li>You must, when you have come back to the starting point, <b style="color:#ff3300"> click on the red/orange panel to finish</b> an inspection. Remember to do it!</li>
+                <li>After finishing the <b>first real scenario (2A)</b>, the <b>second one (2B)</b> will be loaded. You must do the same kind of inspection and also click on the panel when you are done. </li>
+              </ul>
+            </li>
+          </ol>
+          <p>This picture summarises the experiment with : 1A) and 1B) as training phases (one for each navigation) and 2A) and 2B) as real scenario phases with measures.</p>
+          <img src="./media/orderScenarios.jpg" alt="TODO" style="width:100%; height:auto; max-width:1000px"></img>
+        </div>
+        
+        <br/>
+
+        <div id="gifs">
+          <h4>The commands (mouse and keyboard)</h4>
+
+          <div class="row">
+
+            <div class="column">
+              <h4>Orientate</h4>
+              <p>To orient the point of view, use the mouse RIGHT click, hold it down and move the mouse
+                <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>
+              </p>
+              <p>
+                <button onclick="document.getElementById('rotGIF').src='./media/orientation.gif'">Play GIF</button>
+                <button onclick="document.getElementById('rotGIF').src='./media/fix/rotStop.png'">Stop</button>
+              </p>
+              <img src="./media/orientation.gif" id="rotGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Camera orientation</figcaption>
+            </div>
+
+            <div class="column">
+              <h4>Stop moving</h4>
+              <p>To stop moving, press once the S key on the keyboard.
+                <img src="./media/s_key.jpg" alt="stop" style="width:auto; height:100%; max-height:30px"></img>
+              </p>
+              <p>
+                <button onclick="document.getElementById('stopGIF').src='./media/stop.gif'">Play GIF</button>
+                <button onclick="document.getElementById('stopGIF').src='./media/fix/sStop.png'">Stop</button>
+              </p>
+              <img src="./media/stop.gif" id="stopGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Stop a movement</figcaption>
+            </div>
+
+            <div class="column">
+              <h4>Identify a worker in a hazardous situation</h4>
+              <p>First, press once the H key <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to enter <b>"hazard mode"</b> instead of <b>"navigation mode"</b>. The arrow will become <b style="color:#808000">yellow</b>. Then, do a LEFT click on a worker <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to signal him as in a hazardous situation. To undo this, click again on him. When you are done, press the H key again <img src="./media/h_key.jpg" alt="hGIF" style="width:auto; height:100%; max-height:30px"></img> to get back to <b>"navigation mode"</b>.
+              </p>
+              <p>              
+                <button onclick="document.getElementById('hGIF').src='./media/haz.gif'">Play GIF</button>
+                <button onclick="document.getElementById('hGIF').src='./media/fix/hzStop.png'">Stop</button>
+              </p>
+              <img src="./media/haz.gif" id="hGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Mark a worker as in a hazardous situation</figcaption>
+            </div>
+          </div>
+
+          <br/>
+
+          <div class="row">
+            <div class="column">
+              <h4>Direct navigation technique</h4>
+              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the floor</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+              </p>
+              <p>
+                <button onclick="document.getElementById('directGIF').src='./media/direct.gif'">Play GIF</button>
+                <button onclick="document.getElementById('directGIF').src='./media/fix/rotStop.png'">Stop</button>
+              </p>
+              <img src="./media/direct.gif" id="directGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Direct navigation technique</figcaption>
+            </div>
+            <div class="column">
+              <h4>Indirect navigation technique</h4>
+              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img> to move to a point automatically. Move is allowed <b>on the map</b>, when the arrow is <b style="color:#008000">green</b>, not <b style="color:#aa0000">red</b>.
+              </p>
+              <p>
+                <button onclick="document.getElementById('indirectGIF').src='./media/indirect.gif'">Play GIF</button>
+                <button onclick="document.getElementById('indirectGIF').src='./media/fix/indStop.png'">Stop</button>
+              </p>
+              <img src="./media/indirect.gif" id="indirectGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>Indirect navigation technique</figcaption>
+            </div>
+            <div class="column">
+              <h4>End</h4>
+              <p>Use the mouse and its LEFT click <img src="./media/mouse.gif" alt="TODO" style="width:auto; height:100%; max-height:25px"></img>. Always click on the <b style="color:#ff3300">red/orange panel</b> to end a scenario, never on the map, even in indirect navigation.
+              </p>
+              <p>
+                <button onclick="document.getElementById('finGIF').src='./media/fin.gif'">Play GIF</button>
+                <button onclick="document.getElementById('finGIF').src='./media/fix/indStop.png'">Stop</button>
+              </p>
+              <img src="./media/fin.gif" id="finGIF" alt="TODO" style="width:auto; height:100%; max-height:250px"></img><figcaption>How to end a scenario</figcaption>
+            </div>
+          </div>
+
+          <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. You can then unhide it again with the same button <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
+          <br/>
+          <h3 style="color:#dd5253">When you are ready, please copy the VR app APK in your Oculus Quest, put your headset on, and start the app !</h3>
+          <br/>
+        </div>
       </div>
     </div>
-    <div id="step2">
-      <h2>Post-experiment</h2>
-      <p>I have finished the experiment in my VR headset</p>
-      <button onclick="goForm()">Show form</button>
-    </div>
-    <div id="step3" style="display:none">
-      <form name="qID" id="qID">
-        <label for="VRID">Your VR experience ID:</label>
-        <input type="text" id="VRID" name="VRID"><br><br>
-      </form>
-      <input type="button" onclick="validateID()" value="Submit">
-    </div>
-    <div id="step4" style="display:none">
-      <h3>Pre-experiment questionnaire</h3>
-      <p>By entering data in the following questionnaire, you accept to participate to this experiment and consent to transmit these data. Personal data are only necessary to distinguish the results between each participant. They will not be published in any writing or oral communication, If you do not accept to write your name but you want to participate, please enter a random combination of letters as name and first.</p>
 
-      <form name="myForm" id="questionnaire">
-        <div>
-        <p>Please give to each criterion a weight from 0 to 10 according to the importance of this criteria <b>for navigating</b> WHEN <b>searching hazards in a worksite</b></p>
-        <p>The total sum must be 10.</p>
-        <div>0<input type="range" name="QF1" id="QF1" value="5" min="0" max="10" oninput="QF1out.value = QF1.value">10 &emsp; Rapidity: <output name="QF1out" id="QF1out">5</output></div> 
-        <br/><br/>
-            <div>0<input type="range" name="QF2" id="QF2" value="5" min="0" max="10" oninput="QF2out.value = QF2.value">10 &emsp; Information Gathering ability (IGA): <output name="QF2out" id="QF2out">5</output></div>
-        <br/><br/>
-            <div>0<input type="range" name="QF3" id="QF3" value="5" min="0" max="10" oninput="QF3out.value = QF3.value">10 &emsp; Situation awareness (SA): <output name="QF3out" id="QF3out">5</output></div>
-        <br/><br/>
-            <div>0<input type="range" name="QF4" id="QF4" value="5" min="0" max="10" oninput="QF4out.value = QF4.value">10 &emsp; Usability: <output name="QF4out" id="QF4out">5</output></div>
-        <br/><br/>
-        <p>The objective of this table is also to attribute weights to criteria according to their importance <b>for navigating</b> for THIS task of hazard identification</p>
-        <p>This time the criteria must be compared by pair. First, choose which criterion is more important in a pair, select it. Then, put 1 if this criteria is "moderately" more important, or 2 if it is much more important. If you put 0, it means that, for you, the two criteria have the same importance.
-        <br>Example: : rapidity VS IGA => I think that rapidity is more important, I select it. I think it is much more important than IGA, so I choose 2.
-        <table>
-          <tr>
-            <th>x</th>
-            <th>Rapidity</th>
-            <th>Information Gathering ability (IGA)</th>
-            <th>Situation awareness (SA)</th>
-            <th>Usability</th>
-          </tr>
-          <tr>
-            <td>
-            Rapidity 
-            </td>
-            <td>x</td>
-            <td>
-              <select id="c1_2">
-                  <option value="QF1">Rapidity</option>
-                  <option value="QF2">IGA</option>
-              </select>
-              <select id="c1_2w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-            <td>
-              <select id="c1_3">
-                  <option value="QF1">Rapidity</option>
-                  <option value="QF3">SA</option>
-              </select>
-              <select id="c1_3w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-            <td>
-              <select id="c1_4">
-                  <option value="QF1">Rapidity</option>
-                  <option value="QF4">Usability</option>
-              </select>
-              <select id="c1_4w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Information Gathering ability (IGA) 
-            </td>
-            <td>x</td>
-            <td>x</td>
-            <td>
-              <select id="c2_3">
-                  <option value="QF2">IGA</option>
-                  <option value="QF3">SA</option>
-              </select>
-              <select id="c2_3w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-            <td>
-              <select id="c2_4">
-                  <option value="QF2">IGA</option>
-                  <option value="QF4">Usability</option>
-              </select>
-              <select id="c2_4w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Situation awareness (SA) 
-            </td>
-            <td>x</td>
-            <td>x</td>
-            <td>x</td>
-            <td>
-              <select id="c3_4">
-                  <option value="QF3">SA</option>
-                  <option value="QF4">Usability</option>
-              </select>
-              <select id="c3_4w">
-                <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Usability 
-            </td>
-            <td>x</td>
-            <td>x</td>
-            <td>x
-            </td>
-            <td>x
-            </td>
-          </tr>
-        </table>
-        </div>
-        <input type="button" onclick="validateForm()" value="Send form">
-      </form>
+    <div id="step2">
+      <h3>Post-experiment step</h3>
+      <p>Do you have finished the experiment in your VR headset? Congratulations!</p>
+      <p>Please take few more minutes to fill a post-experiment questionnaire. For this purpose, enter the ID shown in the VR app in your headset and submit:</p>
+      <!--<ol>
+        <li>TODO</li>
+        <li>Fill and submit the <b>questionnaire</b> below.</li>
+      </ol>
+      <button onclick="goForm()">Show form</button>-->
+      <div id="step3">
+        <form name="qID" id="qID">
+          <label for="VRID">Your ID (shown in the headset):</label>
+          <input type="text" id="VRID" name="VRID"><br><br>
+        </form>
+        <input type="button" onclick="validateID()" value="Submit and show the final questionnaire">
+      </div>
     </div>
+
+    
+
+    <div id="step4" style="display:none">
+      <a name="qref"></a>
+      <div id="questionnaireDiv" >
+        <h3>Post-experiment questionnaire</h3>
+        <form name="myForm" id="questionnaire">
+          <h4>Personal background</h4>
+          <label for="fname">First name:</label>
+          <input type="text" id="fname" name="fname"><br/><br/>
+          <label for="lname">Last name:</label>
+          <input type="text" id="lname" name="lname">
+          <ul>
+            <li>Is your field of study or work the Architecture, Engineering and Construction (AEC) field? <i>(do not put Yes if you belong to another kind of engineering that AEC)</i>
+              <select id="YN_AEC">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </li>
+            <li>Is your study or work related to hazard identification or mitigation?
+              <select id="YN_H">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </li>
+            <li>Do you often play to videogames in virtual reality, or is your field of study or work virtual reality?
+              <select id="YN_JV">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </li>
+          </ul>
+          <p>Then, about navigation, this can be done using very different techniques, but some are more useful than others depending on what your current task or intention are. </p>
+          <u>Here, your task is to identify hazards on a worksite.</u>
+          We are considering the four following criteria as influencing the quality of the navigation:
+          <ul>
+            <li>Rapidity (how fast can you move around in the simulated environment?)</li>
+            <li>Information Gathering ability (how easy is it to get relevant information from the environment when moving?)</li>
+            <li>Situation awareness (how aware are you am of where you are in the environment after moving?)</li>
+            <li>Usability (how easy is it to move around?)</li>
+          </ul>
+          The following allows you to classify, in your opinion, the importance of these criteria, about the navigation, when identifying hazards.
+          <br/>
+
+        
+          <div>
+            <h4>Criteria importance - Method 1: simple weighting</h4>
+            <p>Give each criterion a weight <b>from 0 to 6</b> according to its importance for navigating in this experiment (about hazards identification). </p>
+            <p>The <b style="color:#dd6600">total sum must be 12</b>.</p>
+            <p></p>
+            <div>0<input type="range" name="QF1" id="QF1" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF1out.value = QF1.value">6 &emsp; Rapidity: 
+              <output name="QF1out" id="QF1out"></output>
+            </div>
+            <br/><br/>
+            <div>0<input type="range" name="QF2" id="QF2" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF2out.value = QF2.value">6 &emsp; Information Gathering ability (IGA): 
+              <output name="QF2out" id="QF2out"></output>
+            </div>
+            <br/><br/>
+            <div>0<input type="range" name="QF3" id="QF3" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF3out.value = QF3.value">6 &emsp; Situation awareness (SA): 
+              <output name="QF3out" id="QF3out"></output>
+            </div>
+            <br/><br/>
+            <div>0<input type="range" name="QF4" id="QF4" value="0" min="0" max="6" onChange="calculateSum()" oninput="QF4out.value = QF4.value">6 &emsp; Usability: 
+              <output name="QF4out" id="QF4out"></output>
+            </div>
+            <br/>
+            <div style="color:#dd6600"><b>Total: <output  name="totSum" id="totSum"></output> <output  name="totSumSentence" id="totSumSentence"></output></b>
+            </div>
+            <br/>
+
+            <h4>Criteria importance - Method 2: cross-weighting</h4>
+            <p>This table also allows you to classify the importance of these criteria. However, here the criteria are compared pairwise.</p>
+            <img src="./media/tableCroisee.png" alt="TODO" style="width:auto; height:100%; max-height:100px"></img>
+            <p>For two criteria (here Rapidity and IGA), first choose in the dropdown list (Rapidity/IGA) the one which is the most important to you (Rapidity OR IGA). Then, put the relative weight 0, 1 or 2 in the second dropdown list. Put 2 if this criteria is much more important than the other, or 1 if it is "moderately" more important. Put 0 if the two criteria have the same importance, in your opinion.</p>.
+            <br/>
+            <table>
+              <tr>
+                <th>x</th>
+                <th>Rapidity</th>
+                <th>Information Gathering ability (IGA)</th>
+                <th>Situation awareness (SA)</th>
+                <th>Usability</th>
+              </tr>
+              <tr>
+                <td>
+                  Rapidity 
+                </td>
+                <td>x</td>
+                <td>
+                  <select id="c1_2">
+                    <option value="QF1">Rapidity</option>
+                    <option value="QF2">IGA</option>
+                  </select>
+                  <select id="c1_2w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+                <td>
+                  <select id="c1_3">
+                    <option value="QF1">Rapidity</option>
+                    <option value="QF3">SA</option>
+                  </select>
+                  <select id="c1_3w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+                <td>
+                  <select id="c1_4">
+                    <option value="QF1">Rapidity</option>
+                    <option value="QF4">Usability</option>
+                  </select>
+                  <select id="c1_4w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Information Gathering ability (IGA) 
+                </td>
+                <td>x</td>
+                <td>x</td>
+                <td>
+                  <select id="c2_3">
+                    <option value="QF2">IGA</option>
+                    <option value="QF3">SA</option>
+                  </select>
+                  <select id="c2_3w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+                <td>
+                  <select id="c2_4">
+                    <option value="QF2">IGA</option>
+                    <option value="QF4">Usability</option>
+                  </select>
+                  <select id="c2_4w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Situation awareness (SA) 
+                </td>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>
+                  <select id="c3_4">
+                    <option value="QF3">SA</option>
+                    <option value="QF4">Usability</option>
+                  </select>
+                  <select id="c3_4w">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Usability 
+                </td>
+                <td>x</td>
+                <td>x</td>
+                <td>x
+                </td>
+                <td>x
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <br/>
+          <input type="button" onclick="validateForm()" value="Send form">
+
+        </form>
+      </div>
+    </div>
+
+    <div id="finalDiv" style="display:none">
+      <p><b>Thank you a lot</b> for participating in this experiment !</p>
+      <p>Please do not repeat the experiment several times because your results would be biaised.</p>
+      <b>However</b><ul><li>Feel free to <b>share</b> the page with friends <b>who own an Oculus Quest</b>!</li><li>Moreover, if you live with <b>other people who also want to participate</b>, please click <button onclick="window.location.reload()">here</button> to reload the page, and repeat the experiment in the headset.</li></ul>
+    </div>
+
+    </main>
   </body>
 
 </html>

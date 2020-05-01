@@ -155,16 +155,16 @@
 
         function showExpe(){
             glContainerOpen=true;
-          //if (gameReady){
+            //if (gameReady){
             stopAllGIF();
             document.getElementById("checkListDiv").style.display = 'none';
             activateWebGLContainer();
             scrollingElement = (document.scrollingElement || document.body)
             scrollingElement.scrollTop = scrollingElement.scrollHeight;
-        //  }
-         // else{
+            //  }
+            // else{
            // alert("Please wait few minutes, the game is loading, and click again on 'I am done'")
-          //}
+            //}
         }
 
         function showFinal(){
@@ -217,7 +217,6 @@
           else{
               FocusCanvas("0");
           }
-
         }
 
         function sleep (time) {
@@ -350,8 +349,7 @@
           }
           else{
             totSumSentence.value= "- Sum is 12, perfect.";
-          }
-          
+          }  
         }
 
         function validateForm() {
@@ -775,7 +773,6 @@
 
         <p><b>NB</b>: You can also hide the map by clicking on the orange button <img src="./media/hide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>, on both navigation modes. You can then unhide it again with the same button <img src="./media/nohide.png" alt="TODO" style="width:auto; height:100%; max-height:50px"></img>.</p>
       </div>
-
     </div>
 
 
@@ -811,6 +808,7 @@
       <p>Please do not repeat the experiment several times because your results would be biaised.</p>
       <b>HOWEVER</b><ul><li>Feel free to share the page with friends!</li><li>If you live with other people who also want to participate, please click <button onclick="window.location.reload()">here</button></li></ul>
     </div>
+    
     </main>
 
     <div class="webgl-content">
