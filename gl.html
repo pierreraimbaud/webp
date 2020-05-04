@@ -291,7 +291,8 @@
 
         function randomScenario (){
           const scenarios = ["1D", "1I", "2D", "2I"];
-          return scenarios[Math.random() * scenarios.length | 0]
+          console.log("1D");
+          return "1D";//scenarios[Math.random() * scenarios.length | 0]
         }
 
         function decideNextScenario (current){
