@@ -238,6 +238,7 @@
           return false;
         }
 
+        var PREF = document.forms["myForm"]["PREF"].value;
 
         var c1_2 = document.forms["myForm"]["c1_2"].value;
         var c1_2w = document.forms["myForm"]["c1_2w"].value;
@@ -289,6 +290,7 @@
             c2_4w:c2_4w,
             c3_4:c3_4,
             c3_4w:c3_4w,
+            PREF:PREF
           }).then(
               () => {
                 window.alert("Form sent!");
@@ -477,7 +479,7 @@
                 <option value="No">No</option>
               </select>
             </li>
-            <li>Do you often play to videogames in virtual reality, or is your field of study or work virtual reality?
+            <li>Is your field of study or work virtual reality (VR), or do you often play to videogames in VR?
               <select id="YN_JV">
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
@@ -637,6 +639,12 @@
           </div>
 
           <br/>
+          <p>Finally, which technique did you prefer, in the context of this experiment ?</p>
+          <select id="PREF">
+                <option value="Direct">Direct (ground)</option>
+                <option value="Indirect">Indirect (map)</option>
+          </select>
+          <br/><br/>
           <input type="button" onclick="validateForm()" value="Send form">
 
         </form>
