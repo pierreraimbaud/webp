@@ -292,9 +292,9 @@
         function randomScenario (){
           const scenarios = ["1D", "1I", "2D"];//, "2I"];
           ///console.log("2D");
-          //if (Math.random()>0.5){
-            //return "2D";
-          //}
+          if (Math.random()>0.5){
+            return "2D";
+          }
           return "1D";//scenarios[Math.random() * scenarios.length | 0];
         }
 
